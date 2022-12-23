@@ -1,4 +1,5 @@
 import React from 'react'
+import { Menu } from '../components/Menu'
 import { PageTitle } from '../components/PageTitle'
 import { useSetPageProps } from '../hooks/UseSetPageProps'
 
@@ -15,6 +16,17 @@ export const Home: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
       <PageTitle title={ title } theme={ theme } />
       <div>Home Page</div>
       <button className={`form__button button-${ theme }`}>Add</button>
+      <Menu
+        cells={[
+          {
+            label: 'label 1'
+          }, {
+            label: 'label 2'
+          }, {
+
+          }
+        ]}
+      />
     </>
   )
 }

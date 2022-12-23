@@ -75,7 +75,7 @@ export const App: () => JSX.Element = () => {
             {/* <Route path='' element={} /> */}
             {/* <Route path='' element={} /> */}
           </Routes>
-          <Menu />
+          {/* <Menu /> */}
           <Footer />
         </BrowserRouter>
       </AppContext.Provider>
