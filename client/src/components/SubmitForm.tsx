@@ -13,13 +13,29 @@ export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows }) 
   const handleSumbitItem = ( event: any, item: string ) => {
     event.preventDefault()
     console.log( 'add: ' + item)
+    const obj = {
+      user: 'testuser',
+      note: item
+    }
+
+    fetch( 'http://localhost:4200/add', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify( obj )
+    })
+    .then( d => d.json() )
+    .then( d => console.log( d ))
   }
 
   const handleAddItem = ( event: any ) => {
     event.preventDefault()
+    // pull text area value
     const gratefulFor = ( document.getElementById( 'grateful' ) as HTMLTextAreaElement ).value
-    if ( !gratefulFor && !errorMessage ) {
-      console.log( 'you didn\'t write anything' )
+    // check for empty form
+    if ( !gratefulFor ) {
       setErrorMessage( 'Are you sure that there isn\'t something that you are grateful for right now?' )
     }
     else {

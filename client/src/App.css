@@ -90,7 +90,7 @@ body {
 .form__button--secondary {
   background-color: var(--dark) !important;
   color: var(--green);
-  opacity: .7;
+  opacity: .8;
   border: 1px solid var(--green);
   box-shadow: none !important;
 }
