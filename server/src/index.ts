@@ -14,12 +14,13 @@ app.use( express.urlencoded({ extended: true }))
 
 enum ErrorTypes {
     Required = 'Required',
+    Server = 'Internal',
     Default = 'DefaultErrorMessage'
 } 
 
 interface ErrorLogProps {
-  type: ErrorTypes,
-  message: string,
+  type: ErrorTypes
+  message: string
 }
 
 export const createErrorLog: ( errorCode: string ) => ErrorLogProps = ( errorCode ) => {
@@ -34,12 +35,24 @@ export const createErrorLog: ( errorCode: string ) => ErrorLogProps = ( errorCod
         type: ErrorTypes.Required,
         message: 'A -note- was not provided.'
       }
+    case 'server':
+      return {
+        type: ErrorTypes.Server,
+        message: 'An internal server error has occured.'
+      }
     default:
       return {
         type: ErrorTypes.Default,
         message: 'Some sort of error has occurred.'
       }
   }
+}
+
+interface ResponseObjectProps {
+  statusCode: number
+  success: boolean
+  data: any | null
+  errors: any[] | null
 }
 
 export const createResponseObject = () => {
@@ -49,7 +62,14 @@ export const createResponseObject = () => {
     data: null,
     errors: []
   }
-} 
+}
+
+export const setSuccessResponse: ( object: ResponseObjectProps, code: number ) => ResponseObjectProps = ( object, code ) => {
+    object.statusCode = code
+    object.success = true
+    object.errors = null
+    return object
+}
 
 app.get( '/', ( req, res ) => {
   res.send( 'home' )
@@ -57,7 +77,7 @@ app.get( '/', ( req, res ) => {
 
 app.post( '/add', ( req, res ) => {
   const responseObject: any = createResponseObject()
-  console.log( req.body )
+
   switch ( req.body.user ) {
     case undefined:
       responseObject.errors.push( createErrorLog( 'nouser' ) )
@@ -83,10 +103,9 @@ app.post( '/add', ( req, res ) => {
       votes: 0,
       reports: 0
     })
-    responseObject.statusCode = 201
-    responseObject.success = true
-    responseObject.errors = null
+    setSuccessResponse( responseObject, 201 )
     responseObject.data.save()
+    // responseObject.errors.push( createErrorLog( 'server' ))
   }
 
   res.status( responseObject.statusCode ).json( responseObject )

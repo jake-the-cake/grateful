@@ -1,33 +1,28 @@
 import React, { useState } from 'react'
+import { useFetch } from '../hooks/UseFetch'
 
 type SubmitFormProps = ( props: {
     label: string,
     placeholder: string,
     cols?: number,
-    rows?: number
+    rows?: number,
+    theme: string
   }) => JSX.Element
 
-export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows }) => {
+export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows, theme }) => {
   const [ errorMessage, setErrorMessage ] = useState( '' )
 
   const handleSumbitItem = ( event: any, item: string ) => {
     event.preventDefault()
-    console.log( 'add: ' + item)
-    const obj = {
-      user: 'testuser',
-      note: item
-    }
-
-    fetch( 'http://localhost:4200/add', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify( obj )
+    useFetch( 'POST', '/add', {
+      body: {
+        user: 'testuser',
+        note: item
+      }
     })
     .then( d => d.json() )
     .then( d => console.log( d ))
+    .catch(( error ) => console.error( error.message ))
   }
 
   const handleAddItem = ( event: any ) => {
@@ -58,7 +53,7 @@ export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows }) 
         <>
           <label htmlFor='grateful' className='form__label'>{ label }</label>
           <textarea name="grateful" className='form__main' id="grateful" cols={ cols || 30 } rows={ rows || 4 } placeholder={ placeholder }></textarea>
-          <button onClick={ handleAddItem } className='form__button'>Add</button>
+          <button onClick={ handleAddItem } className={`form__button button-${ theme }`}>Add</button>
         </>
         )
       }

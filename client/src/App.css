@@ -41,7 +41,7 @@ body {
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.6rem;
   font-weight: 700;
-  color: var(--green);
+  /* color: var(--green); */
 }
 
 .form__container {
@@ -65,7 +65,6 @@ body {
 }
 
 .form__button {
-  background-color: var(--green);
   border: 1px solid var(--dark);
   border-radius: 9999px;
   color: var(--dark);
@@ -78,6 +77,10 @@ body {
   transition: background .3s linear, color .1s linear;
   color: var(--light);
 }
+
+.button-green { background-color: var(--green); }
+.button-red { background-color: var(--red); }
+.button-purple { background-color: var(--purple); }
 
 .form__button:hover {
   cursor: pointer;
@@ -94,3 +97,82 @@ body {
   border: 1px solid var(--green);
   box-shadow: none !important;
 }
+
+.hover-green {
+  color: var(--light);
+  text-decoration: none;
+  transition: color .2s linear;
+  border-left: 2px solid var(--green);
+}
+
+.green-text,
+.hover-green:hover {
+  color: var(--green) !important
+}
+
+.red-text {
+  color: var(--red) !important;
+}
+
+.purple-text {
+  color: var(--purple);
+}
+
+.footer__container {
+  background-color: var(--dark);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: .7rem;
+  padding: .2rem;
+  color: var(--light);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.footer__signature {
+  font-weight: 700;
+}
+
+.footer__links {
+  display: flex;
+  justify-content: end;
+  margin-right: -.3rem;
+}
+
+.footer__links a {
+  text-decoration: underline !important;
+  padding: 0px .3rem;
+}
+
+.hover-green:first-child {
+  border: none !important;
+}
+
+.menu__container {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--dark);
+  margin-bottom: -1px;
+}
+
+.menu-active {
+  box-shadow: inset 0 -10px 15px -10px var(--light),
+              inset 0 10px 15px -7px var(--dark) !important;
+}
+
+.menu__cell {
+  cursor: pointer;
+  box-shadow: inset 0 -10px 15px -7px var(--dark),
+              inset 0 10px 15px -10px var(--light);
+  border: 1px solid var(--dark);
+  padding: 1rem;
+  flex: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-green { background-color: var(--green); }
+.menu-blue { background-color: var(--blue); }
+.menu-red { background-color: var(--red); }
+.menu-purple { background-color: var(--purple); }

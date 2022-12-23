@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createResponseObject = exports.createErrorLog = void 0;
+exports.setSuccessResponse = exports.createResponseObject = exports.createErrorLog = void 0;
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
@@ -26,6 +26,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 var ErrorTypes;
 (function (ErrorTypes) {
     ErrorTypes["Required"] = "Required";
+    ErrorTypes["Server"] = "Internal";
     ErrorTypes["Default"] = "DefaultErrorMessage";
 })(ErrorTypes || (ErrorTypes = {}));
 const createErrorLog = (errorCode) => {
@@ -39,6 +40,11 @@ const createErrorLog = (errorCode) => {
             return {
                 type: ErrorTypes.Required,
                 message: 'A -note- was not provided.'
+            };
+        case 'server':
+            return {
+                type: ErrorTypes.Server,
+                message: 'An internal server error has occured.'
             };
         default:
             return {
@@ -57,12 +63,18 @@ const createResponseObject = () => {
     };
 };
 exports.createResponseObject = createResponseObject;
+const setSuccessResponse = (object, code) => {
+    object.statusCode = code;
+    object.success = true;
+    object.errors = null;
+    return object;
+};
+exports.setSuccessResponse = setSuccessResponse;
 app.get('/', (req, res) => {
     res.send('home');
 });
 app.post('/add', (req, res) => {
     const responseObject = (0, exports.createResponseObject)();
-    console.log(req.body);
     switch (req.body.user) {
         case undefined:
             responseObject.errors.push((0, exports.createErrorLog)('nouser'));
@@ -86,10 +98,9 @@ app.post('/add', (req, res) => {
             votes: 0,
             reports: 0
         });
-        responseObject.statusCode = 201;
-        responseObject.success = true;
-        responseObject.errors = null;
+        (0, exports.setSuccessResponse)(responseObject, 201);
         responseObject.data.save();
+        // responseObject.errors.push( createErrorLog( 'server' ))
     }
     res.status(responseObject.statusCode).json(responseObject);
 });
