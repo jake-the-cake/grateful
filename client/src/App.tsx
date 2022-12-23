@@ -68,7 +68,7 @@ export const App: () => JSX.Element = () => {
               element={
                 <Grateful
                   title='grateful'
-                  theme='purple'
+                  theme='green'
                 />
               }
             />

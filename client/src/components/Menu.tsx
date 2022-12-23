@@ -1,31 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { AppContext } from '../App'
+import React from 'react'
 
 export const Menu = () => {
-  const CTX: any = useContext( AppContext )
-  console.log( CTX.info.theme )
-
-  const [ theme, setTheme ] = useState( '' )
-  useEffect(() => {
-    setTheme( CTX.info.theme )
-  }, [ CTX.info.theme ])
-
   const handleChangeActiveMenu = ( event ) => {
-    ( event.target as HTMLDivElement ).classList.toggle( 'menu-active' )
+    Array.from( document.getElementsByClassName( 'menu__cell' )).forEach( cell => {
+      cell.classList.remove( 'menu-active' )
+    });
+    ( event.target as HTMLDivElement ).classList.add( 'menu-active' )
   }
   const cellArray = [
     'A', 'B', 'C'
   ]
   const buildMenuCells = ( cell: any, index: number ) => {
-    console.log( cell )
     const id = `menucell${ index }`
     return (
-      <div id={ id } key={ id } className='menu__cell' onClick={ handleChangeActiveMenu }>A</div>
+      <div id={ id } key={ id } className='menu__cell' onClick={ handleChangeActiveMenu }>{ cell }</div>
     )
   }
 
   return (
-    <div id='menu' className={`menu__container menu-${ theme }` }>
+    <div id='menu' className={ `menu__container` }>
       {
         cellArray.map( (cell, index ) => buildMenuCells( cell, index ) )
       }
