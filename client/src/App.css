@@ -99,27 +99,19 @@ body {
   box-shadow: none !important;
 }
 
-.hover-green {
-  color: var(--light);
-  text-decoration: none;
-  transition: color .2s linear;
-  border-left: 2px solid var(--green);
-}
+.hover-green { border-left: 2px solid var(--green);}
+.hover-red { border-left: 2px solid var(--red);}
+.hover-blue { border-left: 2px solid var(--blue);}
+.hover-purple { border-left: 2px solid var(--purple);}
 
 .green-text,
-.hover-green:hover {
-  color: var(--green) !important
-}
-
-.red-text {
-  color: var(--red) !important;
-}
-
-.purple-text {
-  color: var(--purple);
-}
-
-.blue-text { color: var(--blue); }
+.hover-green:hover { color: var(--green) !important;}
+.red-text,
+.hover-red:hover { color: var(--red) !important; }
+.purple-text,
+.hover-purple:hover { color: var(--purple); }
+.blue-text,
+.hover-blue:hover { color: var(--blue); }
 
 .footer__container {
   background-color: var(--dark);
@@ -130,6 +122,12 @@ body {
   padding: .2rem;
   color: var(--light);
   font-family: 'Courier New', Courier, monospace;
+}
+
+.link-clean {
+  text-decoration: none;
+  transition: color .2s linear;
+  color: var(--light);
 }
 
 .footer__signature {
@@ -143,11 +141,16 @@ body {
 }
 
 .footer__links a {
+  color: var(--light);
+  transition: color .2s linear;
   text-decoration: underline !important;
   padding: 0px .3rem;
 }
 
-.hover-green:first-child {
+.hover-green:first-child,
+.hover-red:first-child,
+.hover-blue:first-child,
+.hover-purple:first-child {
   border: none !important;
 }
 
@@ -161,6 +164,7 @@ body {
 .menu-active {
   box-shadow: inset 0 -10px 15px -10px var(--light),
               inset 0 10px 15px -7px var(--dark) !important;
+  color: var(--dark) !important;
 }
 
 .menu__cell {
@@ -173,9 +177,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 900;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: var(--light);
 }
 
 .menu-green { background-color: var(--green); }
 .menu-blue { background-color: var(--blue); }
 .menu-red { background-color: var(--red); }
 .menu-purple { background-color: var(--purple); }
+
+.main__block {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.main__block--p::before {
+  content: 'xx';
+  color: transparent;
+}

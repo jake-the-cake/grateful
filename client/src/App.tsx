@@ -3,7 +3,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { Grateful } from './pages/Grateful'
 import { Footer } from './components/Footer'
-import { Home } from './pages/Home'
+import { Home, Homepage } from './pages/Home'
 import { Menu } from './components/Menu'
 
 export const AppContext: any = createContext({})
@@ -18,7 +18,11 @@ const AppReducer = ( state, action ) => {
       }
       else {
         console.info( `Theme changed to '${ action.theme }'` );
-        ( document.getElementById( 'menu' ) as HTMLDivElement ).classList.value = `menu__container menu-${ action.theme }` 
+        ( document.getElementById( 'menu' ) as HTMLDivElement ).classList.value = `menu__container menu-${ action.theme }`;
+        ( document.getElementById( 'qg-link' ) as HTMLDivElement ).classList.value = `link-clean hover-${ action.theme }`;
+        Array.from( document.getElementsByClassName( 'footer__link' )).forEach( link => {
+          link.classList.value = `footer__link hover-${ action.theme }`;
+        })
         state.theme = action.theme
         return state
       }
@@ -54,15 +58,23 @@ export const App: () => JSX.Element = () => {
       <AppContext.Provider value={{ info, dispatch }}>
         <BrowserRouter>
           <Routes>
-            <Route
-              path='/'
-              element={
+            <Route path=''>
+              <Route path='' element={ <Home element={ <Homepage /> }/> }/>
+              <Route path='signup' element={
                 <Home
-                  title='today'
-                  theme='red'
+                  element={
+                    <>Sign Up</>
+                  }
                 />
-              } 
-            />
+              }/>
+              <Route path='login' element={
+                <Home
+                  element={
+                    <>Login</>
+                  }                  
+                />
+              }/>
+            </Route>
             <Route
               path='/grateful'
               element={
