@@ -1,5 +1,4 @@
 import React from 'react'
-import { PageProps } from '../pages/Home'
 
 export interface PageTitleProps {
   title: string
@@ -36,7 +35,7 @@ const PageArrowReducer = ( arrow: PAGE_TITLE_ARROWS, icon: string ) => {
       return false
   }
   return (
-    <div className={ `${ arrowObject.theme }-text` }>{ icon || 'nothing' }</div>
+    <div className={ `arrow__container ${ arrowObject.theme }-text arrow-${ arrowObject.theme }` }>{ icon || 'nothing' }</div>
   )
 }
 

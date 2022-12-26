@@ -1,5 +1,6 @@
 import React from 'react'
 import { Menu } from '../components/Menu'
+import { PageTitle, PAGE_TITLE_ARROWS } from '../components/PageTitle'
 import { SubmitForm } from '../components/SubmitForm'
 import { useSetPageProps } from '../hooks/UseSetPageProps'
 
@@ -13,11 +14,12 @@ export const Grateful: ( props: PageProps ) => JSX.Element = ({ title, theme }) 
 
   return (
     <>
-      <div className='page__title--container'>
-        <span className={ `page__title--text ${ theme }-text` }>
-          { title }.
-        </span>
-      </div>
+      <PageTitle
+        title={ title }
+        theme={ theme }
+        left={ PAGE_TITLE_ARROWS.IMPROVEMENT }
+        right={ PAGE_TITLE_ARROWS.MOTIVATION }
+      />
       <SubmitForm
         label='I am grateful for'
         placeholder='Speak your mind...'
@@ -32,7 +34,7 @@ export const Grateful: ( props: PageProps ) => JSX.Element = ({ title, theme }) 
           }, {
 
           }, {
-            
+
           }
         ]}
       />
