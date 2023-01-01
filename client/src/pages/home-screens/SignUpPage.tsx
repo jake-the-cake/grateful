@@ -25,9 +25,10 @@ export const SignUpPage = () => {
       label: 'Create Account',
       callback: ( event ) => {
         event.preventDefault()
-        console.log( 'clicked' )
-        // handle sign up
-        useFetch( 'GET', '/view', {})
+        const email: string = ( document.getElementById( 'email' ) as HTMLInputElement ).value
+        const password: string = ( document.getElementById( 'password' ) as HTMLInputElement ).value
+        useFetch( 'POST', '/user/add', { body: { email, password }
+        })
           .then( d => d.json() )
           .then( data => console.log( data ))
           .catch( err => console.error( err.message ))

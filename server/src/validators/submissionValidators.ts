@@ -4,13 +4,9 @@ import { createErrorLog } from "../handlers/errorLogHandlers"
 export const checkForEmptyFields: ValidationCheckListProps = ( { response, request }, checks ) => {
 	if ( response.errors === null ) response.errors = []
 	checks.forEach( check => {
-		switch ( request[ check ] ) {
-			case undefined:
-				response.errors!.push( createErrorLog( `no${ check }` ) )
-				response.statusCode = 401
-				break
-			default:
-				break
+		if ( !request[ check ]) {
+			response.errors!.push( createErrorLog( `no${ check }` ) )
+			response.statusCode = 401
 		}
 	})
 }

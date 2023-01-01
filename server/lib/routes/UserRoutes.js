@@ -34,7 +34,7 @@ router.post('/add', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const { email, password } = req.body;
         responseObject.data = new UserModel_1.UserModel({ email, password });
         (0, responseHandlers_1.setSuccessResponse)(responseObject, 201);
-        // responseObject.data.save()
+        responseObject.data.save();
     }
     res.status(responseObject.statusCode).json(responseObject);
 }));

@@ -23,7 +23,7 @@ router.post( '/add', async ( req, res ) => {
 		const { email, password } = req.body
 		responseObject.data = new UserModel({ email, password })
 		setSuccessResponse( responseObject, 201 )
-		// responseObject.data.save()
+		responseObject.data.save()
 	}
 	res.status( responseObject.statusCode ).json( responseObject )
 })

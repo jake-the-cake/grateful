@@ -9,19 +9,29 @@ type BuildFormProps = {
   callback?: ( event: MouseEvent<HTMLButtonElement> ) => void
 }
 
-type Label = {
+type Labelled = {
   label: string
+  name: string
 }
 
-type LabeledButton = Label & {
+type LabeledButton = Labelled & {
   callback?: any
 }
 
-const TextInputUnderLabel = ({ label }: Label ): JSX.Element => {
+const TextInputUnderLabel = ({ label, name }: Labelled ): JSX.Element => {
   return (
     <>
-      <label className='form__label'>{ label }</label>
-      <input className='form__main' type='text' />
+      <label
+        htmlFor={ name }
+        className='form__label'
+      >
+        { label }
+      </label>
+      <input
+        id={ name }
+        className='form__main'
+        type='text'
+      />
     </>
   )
 }
@@ -29,9 +39,12 @@ const TextInputUnderLabel = ({ label }: Label ): JSX.Element => {
 const FormButton = ({ label, callback } : LabeledButton ) => {
   const ctx: any = useContext( AppContext )
   return (
-    <>
-      <button onClick={ callback || null } className={ `form__button button-${ ctx.info.theme }` }>{ label }</button>
-    </>
+    <button
+      onClick={ callback || null }
+      className={ `form__button button-${ ctx.info.theme }` }
+    >
+      { label }
+    </button>
   )
 }
 
@@ -40,10 +53,19 @@ export const useBuildForm = ( data: BuildFormProps[] ): JSX.Element => {
   data.forEach( d => {
     switch( d.type ) {
       case 'text':
-        elements.push( <TextInputUnderLabel label={ d.label } /> )
+        elements.push(
+          <TextInputUnderLabel
+            label={ d.label }
+            name={ d.name }
+          /> )
         break
       case 'button':
-        elements.push( <FormButton label={ d.label } callback={ d.callback } /> )
+        elements.push(
+          <FormButton
+            label={ d.label }
+            name={ d.name }
+            callback={ d.callback }
+          /> )
       default:
         break
     }

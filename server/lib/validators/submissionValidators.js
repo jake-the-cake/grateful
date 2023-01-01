@@ -15,13 +15,9 @@ const checkForEmptyFields = ({ response, request }, checks) => {
     if (response.errors === null)
         response.errors = [];
     checks.forEach(check => {
-        switch (request[check]) {
-            case undefined:
-                response.errors.push((0, errorLogHandlers_1.createErrorLog)(`no${check}`));
-                response.statusCode = 401;
-                break;
-            default:
-                break;
+        if (!request[check]) {
+            response.errors.push((0, errorLogHandlers_1.createErrorLog)(`no${check}`));
+            response.statusCode = 401;
         }
     });
 };
