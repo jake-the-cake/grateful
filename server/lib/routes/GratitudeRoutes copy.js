@@ -14,10 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GratitudeRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const validationHandlers_1 = require("../handlers/validationHandlers");
-const runValidation_1 = require("../validators/runValidation");
 const responseHandlers_1 = require("../handlers/responseHandlers");
 const GratitudeModel_1 = require("../models/GratitudeModel");
+const submissionValidators_1 = require("../validators/submissionValidators");
 const router = express_1.default.Router();
 exports.GratitudeRouter = router;
 router.get('/', (req, res) => {
@@ -25,12 +24,14 @@ router.get('/', (req, res) => {
 });
 router.post('/add', (req, res) => {
     const responseObject = (0, responseHandlers_1.createResponseObject)();
-    (0, runValidation_1.runValidation)((0, validationHandlers_1.createValidationObject)(responseObject, req.body), {
-        required: ['note', 'user']
-    });
+    (0, submissionValidators_1.checkForEmptyFields)(responseObject, req.body, ['note', 'user']);
     if (responseObject.errors.length === 0) {
-        const { user, note } = req.body;
-        responseObject.data = new GratitudeModel_1.GratitudeModel({ user, note, votes: 0, reports: 0 });
+        responseObject.data = new GratitudeModel_1.GratitudeModel({
+            user: req.body.user,
+            note: req.body.note,
+            votes: 0,
+            reports: 0
+        });
         (0, responseHandlers_1.setSuccessResponse)(responseObject, 201);
         responseObject.data.save();
         // responseObject.errors.push( createErrorLog( 'server' ))

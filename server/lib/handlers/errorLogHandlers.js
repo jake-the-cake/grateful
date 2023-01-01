@@ -1,22 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createErrorLog = void 0;
+const notProvided_1 = require("./notProvided");
 const createErrorLog = (errorCode) => {
+    if (errorCode.slice(0, 2) === 'no')
+        return (0, notProvided_1.notProvided)(errorCode.replace('no', ''));
     switch (errorCode) {
-        case 'nouser':
-            return {
-                type: "Required" /* ErrorTypes.Required */,
-                message: 'A -user- ID was not provided.'
-            };
-        case 'nonote':
-            return {
-                type: "Required" /* ErrorTypes.Required */,
-                message: 'A -note- was not provided.'
-            };
         case 'server':
             return {
                 type: "Internal" /* ErrorTypes.Server */,
                 message: 'An internal server error has occured.'
+            };
+        case 'dupemail':
+            return {
+                type: "TakenValue" /* ErrorTypes.Duplicate */,
+                message: 'Email address in use already'
             };
         default:
             return {

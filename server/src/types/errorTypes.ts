@@ -1,6 +1,7 @@
 // Different types of errors that can occur
 export const enum ErrorTypes {
-    Required = 'Required',
+    Required = 'RequiredValue',
+    Duplicate = 'TakenValue',
     Server = 'Internal',
     Default = 'DefaultErrorMessage'
 } 

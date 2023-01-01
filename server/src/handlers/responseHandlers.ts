@@ -1,4 +1,4 @@
-import { ResponseObjectProps } from "types/responseTypes"
+import { ResponseObjectProps } from "../types/responseTypes"
 
 export const createResponseObject = () => {
   return {
