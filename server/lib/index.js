@@ -9,8 +9,12 @@ const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const UserRoutes_1 = require("./routes/UserRoutes");
 const GratitudeRoutes_1 = require("./routes/GratitudeRoutes");
+const portInit_1 = require("./init/portInit");
+const serverNameInit_1 = require("./init/serverNameInit");
 const app = (0, express_1.default)();
 dotenv_1.default.config();
+const port = (0, portInit_1.portInit)();
+const serverName = (0, serverNameInit_1.serverNameInit)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -19,10 +23,10 @@ app.use('/gratitude', GratitudeRoutes_1.GratitudeRouter);
 app.get('/', (req, res) => {
     res.send('home');
 });
-app.listen(4200, () => {
-    console.log('running');
+app.listen(port, () => {
+    console.log(`'${serverName}' server is running on port ${port}.`);
     mongoose_1.default.set('strictQuery', false);
-    mongoose_1.default.connect('mongodb://localhost:27017/grateful', () => {
+    mongoose_1.default.connect(process.env.MONGO, () => {
         console.log('data');
     });
 });

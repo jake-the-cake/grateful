@@ -4,9 +4,13 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { UserRouter } from './routes/UserRoutes'
 import { GratitudeRouter } from './routes/GratitudeRoutes'
+import { portInit } from './init/portInit'
+import { serverNameInit } from './init/serverNameInit'
 
 const app = express()
 dotenv.config()
+const port = portInit()
+const serverName = serverNameInit()
 
 app.use( cors() )
 app.use( express.json() )
@@ -19,10 +23,10 @@ app.get( '/', ( req, res ) => {
   res.send( 'home' )
 })
 
-app.listen( 4200, () => {
-  console.log( 'running' )
+app.listen( port, () => {
+  console.log( `'${ serverName }' server is running on port ${ port }.` )
   mongoose.set('strictQuery', false)
-  mongoose.connect( 'mongodb://localhost:27017/grateful', () => {
+  mongoose.connect( process.env.MONGO as string, () => {
     console.log( 'data' )
   })
 })
