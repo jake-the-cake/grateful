@@ -1,10 +1,10 @@
 import React, { createContext, useReducer } from 'react'
 import './App.css'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Grateful } from './pages/Grateful'
 import { Footer } from './components/Footer'
-import { Home, Homepage } from './pages/Home'
-import { Menu } from './components/Menu'
+import { Home, LoginPage, SignUpPage } from './pages/Home'
+import { Homepage } from './pages/home-screens/Homepage'
 
 export const AppContext: any = createContext({})
 
@@ -60,20 +60,8 @@ export const App: () => JSX.Element = () => {
           <Routes>
             <Route path=''>
               <Route path='' element={ <Home element={ <Homepage /> }/> }/>
-              <Route path='signup' element={
-                <Home
-                  element={
-                    <>Sign Up</>
-                  }
-                />
-              }/>
-              <Route path='login' element={
-                <Home
-                  element={
-                    <>Login</>
-                  }                  
-                />
-              }/>
+              <Route path='signup' element={ <Home element={ <SignUpPage /> } /> }/>
+              <Route path='login' element={ <Home element={ <LoginPage /> } /> }/>
             </Route>
             <Route
               path='/grateful'

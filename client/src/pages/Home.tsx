@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Menu } from '../components/Menu'
 import { PageTitle, PAGE_TITLE_ARROWS } from '../components/PageTitle'
 import { useSetPageProps } from '../hooks/UseSetPageProps'
@@ -9,20 +9,69 @@ export interface PageProps {
   element?: JSX.Element
 }
 
-export const Homepage = () => {
+type BuildFormProps = {
+  type: string
+  name: string
+  stack?: string
+  label: string
+  callback?: () => void
+}
+
+
+const TextInputUnderLabel = ({ label }: { label: string }) => {
   return (
-    <div className='main__block'>
-      <div className='main__block--p'>
-        Good morning, and welcome to <span className='text-emphasis'>today</span>, your personal reflection assistant. It only takes a few moments each day to help yourself heading in the right direction. Just use the menu below to login or create an account.
-      </div>
-      <div className='main__block--p'>
-        Everthing within this app is 100% anonymous; you will not be required to give any personal information, and any information that you voluntarily give will never be shared. In fact, you can even sign up with a fake email address, and we would never know!
-      </div>
-      <div className='main__block--p'>
-        There is no charge to use this service. We just ask that you spread the word to others who may benifit. If you have ideas to improve this service, reach out to quietgoatlabs@gmail.com
-      </div>
+    <>
+      <label className='form__label'>{ label }</label>
+      <input className='form__main' type='text' />
+    </>
+  )
+}
+
+const FormButton = () => {
+
+}
+
+const useBuildForm = ( data: BuildFormProps[] ): JSX.Element => {
+  const elements: any[] = []
+  data.forEach( d => {
+    switch( d.type ) {
+      case 'text':
+        elements.push( <TextInputUnderLabel label={ d.label } /> )
+        break
+      default:
+        break
+    }
+  })
+  return (
+    <div className='form__container'>
+      { elements && elements.map( e => e )}
+      <button className='form__button button-red'>Login</button>
     </div>
   )
+}
+
+export const SignUpPage = () => {
+  return (
+    <>
+      Sign up page
+    </>
+  )
+}
+
+export const LoginPage = () => {
+  return useBuildForm([
+    {
+      type: 'text',
+      name: 'email',
+      stack: 'vertical',
+      label: 'Email Address',
+    },{
+      type: 'text',
+      name: 'password',
+      stack: 'vertical',
+      label: 'Password'
+    }
+  ])
 }
 
 export const Home: ( props: PageProps ) => JSX.Element = ({ element }) => {
@@ -35,8 +84,6 @@ export const Home: ( props: PageProps ) => JSX.Element = ({ element }) => {
       <PageTitle
         title={ title }
         theme={ theme }
-        left={ PAGE_TITLE_ARROWS.IMPROVEMENT }
-        right={ PAGE_TITLE_ARROWS.GRATITUDE }
       />
       { element }
       <Menu
