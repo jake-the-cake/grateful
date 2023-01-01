@@ -3,15 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GratitudeModel = void 0;
+exports.UserModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const Grateful = new mongoose_1.default.Schema({
-    user: {
+const User = new mongoose_1.default.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
         type: String,
         required: true
     },
-    note: String,
-    votes: Number,
-    reports: Number
+    name: String
 }, { timestamps: true });
-exports.GratitudeModel = mongoose_1.default.model('Grateful', Grateful);
+exports.UserModel = mongoose_1.default.model('User', User);

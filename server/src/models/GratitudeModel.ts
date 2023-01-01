@@ -11,4 +11,4 @@ const Grateful = new mongoose.Schema({
 },
 { timestamps: true })
 
-export const GratefulModel = mongoose.model( 'Grateful', Grateful )
+export const GratitudeModel = mongoose.model( 'Grateful', Grateful )

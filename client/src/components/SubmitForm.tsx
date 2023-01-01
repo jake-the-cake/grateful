@@ -14,7 +14,7 @@ export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows, th
 
   const handleSumbitItem = ( event: any, item: string ) => {
     event.preventDefault()
-    useFetch( 'POST', '/add', {
+    useFetch( 'POST', '/gratitude/add', {
       body: {
         user: 'testuser',
         note: item
