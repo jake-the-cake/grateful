@@ -1,18 +1,21 @@
-import React, { createContext, useReducer } from 'react'
+import React, { createContext, Dispatch, Reducer, useReducer } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Grateful } from './pages/Grateful'
 import { Footer } from './components/Footer'
-import { Home, LoginPage, SignUpPage } from './pages/Home'
+import { Home } from './pages/Home'
 import { Homepage } from './pages/home-screens/Homepage'
+import { SignUpPage } from './pages/home-screens/SignUpPage'
+import { LoginPage } from './pages/home-screens/LoginPage'
 
 export const AppContext: any = createContext({})
 
-const AppReducer = ( state, action ) => {
+const AppReducer = ( state: ReducerProps, action: any ) => {
 
   switch ( action.type ) {
     case 'SET-THEME':
       if ( !action.theme ) {
+        
         console.error( 'no theme color provided' )
         return state
       }
@@ -45,8 +48,15 @@ const AppReducer = ( state, action ) => {
   }
 }
 
+interface ReducerProps {
+  url?: string
+  theme: string
+  loginStatus?: boolean
+  user: any
+}
+
 export const App: () => JSX.Element = () => {
-  const [ info, dispatch ] = useReducer( AppReducer, {
+  const [ info, dispatch ] = useReducer<Reducer<ReducerProps, Dispatch<ReducerProps>>>( AppReducer, {
     url: undefined,
     theme: 'default',
     loginStatus: undefined,
