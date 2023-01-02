@@ -18,7 +18,7 @@ type LabeledButton = Labelled & {
   callback?: any
 }
 
-const TextInputUnderLabel = ({ label, name, errors }: Labelled & { errors: any } ): JSX.Element => {
+const TextInputUnderLabel = ({ label, name, errors, type }: Labelled & { errors: any, type: string } ): JSX.Element => {
   return (
     <>
       <label
@@ -30,7 +30,7 @@ const TextInputUnderLabel = ({ label, name, errors }: Labelled & { errors: any }
       <input
         id={ name }
         className='form__main'
-        type='text'
+        type={ type }
       />
       { errors && (
         <div className='form__error'>
@@ -63,6 +63,16 @@ export const useBuildForm = ( data: BuildFormProps[], errors: any ): JSX.Element
             label={ d.label }
             name={ d.name }
             errors={ errors }
+            type='text'
+          /> )
+        break
+      case 'password':
+        elements.push(
+          <TextInputUnderLabel
+            label={ d.label }
+            name={ d.name }
+            errors={ errors }
+            type='password'
           /> )
         break
       case 'button':

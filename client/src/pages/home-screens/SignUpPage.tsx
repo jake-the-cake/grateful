@@ -4,25 +4,27 @@ import { useBuildForm } from "../../hooks/UseBuildForm"
 import { useFetch } from "../../hooks/UseFetch"
 import { useValidation } from "../../hooks/UseValidation"
 
-const displayErrors = ( data: ResponseObjectProps, values: any, setErrors: Dispatch<SignUpErrorsProps | null> ) => {
+const displayErrors = ( data: ResponseObjectProps, setErrors: Dispatch<SignUpErrorsProps | null> ) => {
   const errorArray: any = []
-  const errorObject: any = {}
   data.errors!.forEach(( err: any ) => {
     errorArray.push( err.message.split( '-' )[ 1 ].trim() )
   })
   errorArray.forEach(( err: string, index: number ) => {
-    errorObject[ err ] = data.errors![ index ].message.replaceAll( '-', '')
+    errorArray[ err ] = ( data.errors![ index ].message as any ).replaceAll( '-', '')
   })
-  if ( !useValidation({ email }).success ) errorObject.email = 'This email address is invalid.'
-  if ( values.password.length < 5 ) errorObject.password = 'Passwords must be 6+ characters.'
-  setErrors( errorObject )
+  setErrors( errorArray )
+}
+
+export type ErrorResponseProps = {
+  type: string
+  message: string
 }
 
 export interface ResponseObjectProps {
   statusCode: number
   success: boolean
   data: any | null
-  errors: any[] | null
+  errors: ErrorResponseProps[] | null
 }
 
 type SignUpErrorsProps = {
@@ -36,21 +38,45 @@ export const SignUpPage = () => {
   const navigate = useNavigate()
 
   const handleSignUp = ( event: MouseEvent<HTMLButtonElement> ): void => {
-    const email = ( document.getElementById( 'email' ) as HTMLInputElement ).value
-    const password = ( document.getElementById( 'password' ) as HTMLInputElement ).value
-    const values = { email, password }
     event.preventDefault()
-    useFetch( 'POST', '/user/add', { body: values })
-      .then( d => d.json() )
-      .then(( data ) => {
-        console.log( data )
-        if( !data.errors && password.length < 5 && !useValidation({ email }).success ) {
-          setErrors( null )
-          navigate( '/grateful' )
-        }
-        else displayErrors( data, values, setErrors )
-      })
-      .catch( err => console.error( err.message ))
+    //object with input values
+    const inputs = {
+      email: ( document.getElementById( 'email' ) as HTMLInputElement ).value,
+      password: ( document.getElementById( 'password' ) as HTMLInputElement ).value,
+      confirm: ( document.getElementById( 'confirm' ) as HTMLInputElement ).value
+    }
+    // init error array
+    const errorObject: any = {}
+    // run frontend checks
+    if ( !useValidation( inputs ).success ) errorObject.email = 'This email address is invalid.'
+    if ( inputs.password.length < 6 ) errorObject.password = 'Passwords must be 6+ characters.'
+    if ( inputs.password !== inputs.confirm ) errorObject.confirm = 'These passwords do not match.'
+  
+    if ( Object.keys( errorObject ).length > 0 ) {
+      setErrors( errorObject )
+    }
+    else {
+      setErrors( null )
+      useFetch( 'POST', '/user/add', { body: inputs })
+        .then( d => d.json() )
+        .then(( data: ResponseObjectProps ) => {
+          console.log( data )
+          if( !data.errors ) navigate( '/grateful' )
+          else displayErrors( data, setErrors )
+        })
+        .catch(( err ) => console.log( err.message ))
+    }
+
+    // useFetch( 'POST', '/user/add', { body: inputs })
+    //   .then( d => d.json() )
+    //   .then(( data ) => {
+    //     console.log( data )
+    //       setErrors( null )
+    //       navigate( '/grateful' )
+    //     }
+    //     else displayErrors( data, inputs, setErrors )
+    //   })
+    //   .catch( err => console.error( err.message ))
   }
 
   return (
@@ -61,12 +87,12 @@ export const SignUpPage = () => {
       stack: 'vertical',
       label: 'Email Address',
     },{
-      type: 'text',
+      type: 'password',
       name: 'password',
       stack: 'vertical',
       label: 'Password'
     },{
-      type: 'text',
+      type: 'password',
       name: 'confirm',
       stack: 'vertical',
       label: 'Confirm Password'
