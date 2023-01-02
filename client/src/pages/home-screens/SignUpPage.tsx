@@ -2,8 +2,9 @@ import { Dispatch, MouseEvent, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useBuildForm } from "../../hooks/UseBuildForm"
 import { useFetch } from "../../hooks/UseFetch"
+import { useValidation } from "../../hooks/UseValidation"
 
-const displayErrors = ( data: ResponseObjectProps, setErrors: Dispatch<SignUpErrorsProps | null> ) => {
+const displayErrors = ( data: ResponseObjectProps, values: any, setErrors: Dispatch<SignUpErrorsProps | null> ) => {
   const errorArray: any = []
   const errorObject: any = {}
   data.errors!.forEach(( err: any ) => {
@@ -12,8 +13,9 @@ const displayErrors = ( data: ResponseObjectProps, setErrors: Dispatch<SignUpErr
   errorArray.forEach(( err: string, index: number ) => {
     errorObject[ err ] = data.errors![ index ].message.replaceAll( '-', '')
   })
+  if ( !useValidation({ email }).success ) errorObject.email = 'This email address is invalid.'
+  if ( values.password.length < 5 ) errorObject.password = 'Passwords must be 6+ characters.'
   setErrors( errorObject )
-  console.log( errorObject )
 }
 
 export interface ResponseObjectProps {
@@ -34,19 +36,19 @@ export const SignUpPage = () => {
   const navigate = useNavigate()
 
   const handleSignUp = ( event: MouseEvent<HTMLButtonElement> ): void => {
+    const email = ( document.getElementById( 'email' ) as HTMLInputElement ).value
+    const password = ( document.getElementById( 'password' ) as HTMLInputElement ).value
+    const values = { email, password }
     event.preventDefault()
-    useFetch( 'POST', '/user/add', { body: {
-      email: ( document.getElementById( 'email' ) as HTMLInputElement ).value,
-      password: ( document.getElementById( 'password' ) as HTMLInputElement ).value
-    }})
+    useFetch( 'POST', '/user/add', { body: values })
       .then( d => d.json() )
       .then(( data ) => {
         console.log( data )
-        if( !data.errors ) {
+        if( !data.errors && password.length < 5 && !useValidation({ email }).success ) {
           setErrors( null )
           navigate( '/grateful' )
         }
-        else displayErrors( data, setErrors )
+        else displayErrors( data, values, setErrors )
       })
       .catch( err => console.error( err.message ))
   }
