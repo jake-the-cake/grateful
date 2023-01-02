@@ -1,7 +1,9 @@
+import { useState } from "react"
 import { useBuildForm } from "../../hooks/UseBuildForm"
 import { useFetch } from "../../hooks/UseFetch"
 
 export const SignUpPage = () => {
+  const [ errors, setErrors ] = useState<any>(null)
   return (
    useBuildForm([
     {
@@ -27,13 +29,24 @@ export const SignUpPage = () => {
         event.preventDefault()
         const email: string = ( document.getElementById( 'email' ) as HTMLInputElement ).value
         const password: string = ( document.getElementById( 'password' ) as HTMLInputElement ).value
-        useFetch( 'POST', '/user/add', { body: { email, password }
-        })
+        useFetch( 'POST', '/user/add', { body: { email, password }})
           .then( d => d.json() )
-          .then( data => console.log( data ))
+          .then( (data ) => {
+            if( !data.errors ) return
+            const errorArray: any = []
+            const errorObject: any = {}
+            data.errors.forEach(( err: any ) => {
+              errorArray.push( err.message.split( '-' )[ 1 ].trim() )
+            })
+            errorArray.forEach(( err: any, index: number ) => {
+              errorObject[ err ] = data.errors[ index ].message
+            })
+            setErrors( errorObject )
+            console.log( errorObject )
+          })
           .catch( err => console.error( err.message ))
       }
     }
-  ])
+  ], errors )
   )
 }

@@ -18,7 +18,7 @@ type LabeledButton = Labelled & {
   callback?: any
 }
 
-const TextInputUnderLabel = ({ label, name }: Labelled ): JSX.Element => {
+const TextInputUnderLabel = ({ label, name, errors }: Labelled & { errors: any } ): JSX.Element => {
   return (
     <>
       <label
@@ -32,6 +32,7 @@ const TextInputUnderLabel = ({ label, name }: Labelled ): JSX.Element => {
         className='form__main'
         type='text'
       />
+      { errors && errors[ name ]}
     </>
   )
 }
@@ -48,7 +49,7 @@ const FormButton = ({ label, callback } : LabeledButton ) => {
   )
 }
 
-export const useBuildForm = ( data: BuildFormProps[] ): JSX.Element => {
+export const useBuildForm = ( data: BuildFormProps[], errors: any ): JSX.Element => {
   const elements: any[] = []
   data.forEach( d => {
     switch( d.type ) {
@@ -57,6 +58,7 @@ export const useBuildForm = ( data: BuildFormProps[] ): JSX.Element => {
           <TextInputUnderLabel
             label={ d.label }
             name={ d.name }
+            errors={ errors }
           /> )
         break
       case 'button':

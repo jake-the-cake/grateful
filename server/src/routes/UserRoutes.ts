@@ -10,6 +10,18 @@ router.get( '/', ( req, res ) => {
 	res.send( 'User Routes' )
 })
 
+router.get( '/find/all', async ( req, res ) => {
+	const response = await UserModel.find()
+	res.status( 200 ).json( response )
+})
+
+router.delete( '/delete/all', async ( req, res ) => {
+	Array.from( await UserModel.find() ).forEach( user => {
+		user.delete()
+	})
+	res.status( 201 ).json({ "all users": "deleted." })
+})
+
 router.post( '/add', async ( req, res ) => {
 	const responseObject: any = createResponseObject()
 

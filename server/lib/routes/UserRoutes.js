@@ -23,6 +23,16 @@ exports.UserRouter = router;
 router.get('/', (req, res) => {
     res.send('User Routes');
 });
+router.get('/find/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield UserModel_1.UserModel.find();
+    res.status(200).json(response);
+}));
+router.delete('/delete/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    Array.from(yield UserModel_1.UserModel.find()).forEach(user => {
+        user.delete();
+    });
+    res.status(201).json({ "all users": "deleted." });
+}));
 router.post('/add', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseObject = (0, responseHandlers_1.createResponseObject)();
     // validation engine
