@@ -11,10 +11,12 @@ export const createErrorLog: ( errorCode: string ) => ErrorLogProps = ( errorCod
         type: ErrorTypes.Server,
         message: 'An internal server error has occured.'
       }
+    // TODO
+    // 
     case 'dupemail':
       return {
         type: ErrorTypes.Duplicate,
-        message: 'Email address in use already'
+        message: 'This -email- address is taken.'
       }
     default:
       return {

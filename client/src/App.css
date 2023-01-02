@@ -57,7 +57,15 @@ body {
 }
 
 .form__label {
-  margin: auto;
+  margin: 0px auto -.5rem;
+}
+
+.form__error {
+  margin: -.5rem auto 0px;
+  font-size: .8rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--purple);
 }
 
 .form__main {

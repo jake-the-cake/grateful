@@ -32,7 +32,11 @@ const TextInputUnderLabel = ({ label, name, errors }: Labelled & { errors: any }
         className='form__main'
         type='text'
       />
-      { errors && errors[ name ]}
+      { errors && (
+        <div className='form__error'>
+          { errors[ name ] } 
+        </div>
+      )}
     </>
   )
 }

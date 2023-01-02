@@ -1,9 +1,56 @@
-import { useState } from "react"
+import { Dispatch, MouseEvent, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useBuildForm } from "../../hooks/UseBuildForm"
 import { useFetch } from "../../hooks/UseFetch"
 
+const displayErrors = ( data: ResponseObjectProps, setErrors: Dispatch<SignUpErrorsProps | null> ) => {
+  const errorArray: any = []
+  const errorObject: any = {}
+  data.errors!.forEach(( err: any ) => {
+    errorArray.push( err.message.split( '-' )[ 1 ].trim() )
+  })
+  errorArray.forEach(( err: string, index: number ) => {
+    errorObject[ err ] = data.errors![ index ].message.replaceAll( '-', '')
+  })
+  setErrors( errorObject )
+  console.log( errorObject )
+}
+
+export interface ResponseObjectProps {
+  statusCode: number
+  success: boolean
+  data: any | null
+  errors: any[] | null
+}
+
+type SignUpErrorsProps = {
+  email?: string
+  password?: string
+  confirm?: string
+}
+
 export const SignUpPage = () => {
-  const [ errors, setErrors ] = useState<any>(null)
+  const [ errors, setErrors ] = useState<SignUpErrorsProps | null>(null)
+  const navigate = useNavigate()
+
+  const handleSignUp = ( event: MouseEvent<HTMLButtonElement> ): void => {
+    event.preventDefault()
+    useFetch( 'POST', '/user/add', { body: {
+      email: ( document.getElementById( 'email' ) as HTMLInputElement ).value,
+      password: ( document.getElementById( 'password' ) as HTMLInputElement ).value
+    }})
+      .then( d => d.json() )
+      .then(( data ) => {
+        console.log( data )
+        if( !data.errors ) {
+          setErrors( null )
+          navigate( '/grateful' )
+        }
+        else displayErrors( data, setErrors )
+      })
+      .catch( err => console.error( err.message ))
+  }
+
   return (
    useBuildForm([
     {
@@ -18,34 +65,14 @@ export const SignUpPage = () => {
       label: 'Password'
     },{
       type: 'text',
-      name: 'confirm-password',
+      name: 'confirm',
       stack: 'vertical',
       label: 'Confirm Password'
     },{
       type: 'button',
       name: 'signup',
       label: 'Create Account',
-      callback: ( event ) => {
-        event.preventDefault()
-        const email: string = ( document.getElementById( 'email' ) as HTMLInputElement ).value
-        const password: string = ( document.getElementById( 'password' ) as HTMLInputElement ).value
-        useFetch( 'POST', '/user/add', { body: { email, password }})
-          .then( d => d.json() )
-          .then( (data ) => {
-            if( !data.errors ) return
-            const errorArray: any = []
-            const errorObject: any = {}
-            data.errors.forEach(( err: any ) => {
-              errorArray.push( err.message.split( '-' )[ 1 ].trim() )
-            })
-            errorArray.forEach(( err: any, index: number ) => {
-              errorObject[ err ] = data.errors[ index ].message
-            })
-            setErrors( errorObject )
-            console.log( errorObject )
-          })
-          .catch( err => console.error( err.message ))
-      }
+      callback: handleSignUp
     }
   ], errors )
   )

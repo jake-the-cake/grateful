@@ -11,10 +11,12 @@ const createErrorLog = (errorCode) => {
                 type: "Internal" /* ErrorTypes.Server */,
                 message: 'An internal server error has occured.'
             };
+        // TODO
+        // 
         case 'dupemail':
             return {
                 type: "TakenValue" /* ErrorTypes.Duplicate */,
-                message: 'Email address in use already'
+                message: 'This -email- address is taken.'
             };
         default:
             return {
