@@ -66,17 +66,6 @@ export const SignUpPage = () => {
         })
         .catch(( err ) => console.log( err.message ))
     }
-
-    // useFetch( 'POST', '/user/add', { body: inputs })
-    //   .then( d => d.json() )
-    //   .then(( data ) => {
-    //     console.log( data )
-    //       setErrors( null )
-    //       navigate( '/grateful' )
-    //     }
-    //     else displayErrors( data, inputs, setErrors )
-    //   })
-    //   .catch( err => console.error( err.message ))
   }
 
   return (
