@@ -25,8 +25,8 @@ app.use( '/gratitude', GratitudeRouter )
 // listener
 app.listen( port, () => {
   console.log( `'${ serverName }' server is running on port ${ port }.` )
-  mongoose.set('strictQuery', false)
-  mongoose.connect( process.env.MONGO as string, () => {
-    console.log( 'data' )
-  })
+  // mongoose.set('strictQuery', false)
+  // mongoose.connect( process.env.MONGO as string, () => {
+    // console.log( 'data' )
+  // })
 })
