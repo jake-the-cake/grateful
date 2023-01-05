@@ -67,7 +67,7 @@ export const SignUpPage = () => {
         .catch(( err ) => console.log( err.message ))
     }
   }
-
+  
   return (
    useBuildForm([
     {
