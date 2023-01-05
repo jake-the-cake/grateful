@@ -33,7 +33,7 @@ export const App: () => JSX.Element = () => {
               path='/grateful'
               element={
                 <Grateful
-                  title='grateful'
+                  title='gratitude'
                   theme='green'
                 />
               }
