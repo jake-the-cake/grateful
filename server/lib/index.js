@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const UserRoutes_1 = require("./routes/UserRoutes");
@@ -25,8 +26,8 @@ app.use('/gratitude', GratitudeRoutes_1.GratitudeRouter);
 // listener
 app.listen(port, () => {
     console.log(`'${serverName}' server is running on port ${port}.`);
-    // mongoose.set('strictQuery', false)
-    // mongoose.connect( process.env.MONGO as string, () => {
-    // console.log( 'data' )
-    // })
+    mongoose_1.default.set('strictQuery', false);
+    mongoose_1.default.connect(process.env.MONGO, () => {
+        console.log('data');
+    });
 });
