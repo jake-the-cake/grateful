@@ -1,6 +1,6 @@
-import { Dispatch, MouseEvent, useState } from "react"
+import React, { Dispatch, MouseEvent, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useBuildForm } from "../../hooks/UseBuildForm"
+import { CustomForm } from "../../forms/CustomForm"
 import { useFetch } from "../../hooks/UseFetch"
 import { useValidation } from "../../hooks/UseValidation"
 
@@ -67,30 +67,33 @@ export const SignUpPage = () => {
         .catch(( err ) => console.log( err.message ))
     }
   }
-  
+
   return (
-   useBuildForm([
-    {
-      type: 'text',
-      name: 'email',
-      stack: 'vertical',
-      label: 'Email Address',
-    },{
-      type: 'password',
-      name: 'password',
-      stack: 'vertical',
-      label: 'Password'
-    },{
-      type: 'password',
-      name: 'confirm',
-      stack: 'vertical',
-      label: 'Confirm Password'
-    },{
-      type: 'button',
-      name: 'signup',
-      label: 'Create Account',
-      callback: handleSignUp
-    }
-  ], errors )
+    <CustomForm
+      data={[
+        {
+          type: 'text',
+          name: 'email',
+          stack: 'vertical',
+          label: 'Email Address',
+        },{
+          type: 'password',
+          name: 'password',
+          stack: 'vertical',
+          label: 'Password'
+        },{
+          type: 'password',
+          name: 'confirm',
+          stack: 'vertical',
+          label: 'Confirm Password'
+        },{
+          type: 'button',
+          name: 'signup',
+          label: 'Create Account',
+          callback: handleSignUp
+        }
+      ]}
+      errors={ errors }
+    />
   )
 }

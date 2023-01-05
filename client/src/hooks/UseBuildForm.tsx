@@ -1,7 +1,7 @@
 import React, { MouseEvent, useContext } from 'react'
 import { AppContext } from '../App'
 
-type BuildFormProps = {
+export type BuildFormProps = {
   type: string
   name: string
   stack?: string
@@ -53,7 +53,7 @@ const FormButton = ({ label, callback } : LabeledButton ) => {
   )
 }
 
-export const useBuildForm = ( data: BuildFormProps[], errors: any ): JSX.Element => {
+export const useBuildForm = ( data: BuildFormProps[], errors: any ): any[] => {
   const elements: any[] = []
   data.forEach( d => {
     switch( d.type ) {
@@ -86,9 +86,5 @@ export const useBuildForm = ( data: BuildFormProps[], errors: any ): JSX.Element
         break
     }
   })
-  return (
-    <div className='form__container'>
-      { elements && elements.map( e => e )}
-    </div>
-  )
+  return elements
 }
