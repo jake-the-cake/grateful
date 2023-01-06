@@ -1,35 +1,20 @@
-import React, { useState } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import { CustomForm } from '../../forms/CustomForm'
-import { useBuildForm } from '../../hooks/UseBuildForm'
+import { loginElements } from '../../forms/form-data/loginElements'
 import { AuthErrorProps } from './SignUpPage'
 
 export const LoginPage = (): JSX.Element => {
   const [ errors, setErrors ] = useState<AuthErrorProps | null>(null)
 
+  const handleClick = ( event: MouseEvent<HTMLButtonElement> ) => {
+    event.preventDefault()
+    console.log( 'clicked' )
+    // handle login
+  }
+
   return (
     <CustomForm
-      data={[
-        {
-          type: 'text',
-          name: 'email',
-          stack: 'vertical',
-          label: 'Email Address',
-        },{
-          type: 'password',
-          name: 'password',
-          stack: 'vertical',
-          label: 'Password'
-        },{
-          type: 'button',
-          name: 'login',
-          label: 'Login',
-          callback: ( event ) => {
-            event.preventDefault()
-            console.log( 'clicked' )
-            // handle login
-          }
-        }
-      ]}
+      data={ loginElements({ submit: handleClick })}
       errors={ errors }
     />
   )

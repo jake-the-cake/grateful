@@ -18,22 +18,24 @@ type LabeledButton = Labelled & {
   callback?: any
 }
 
-const TextInputUnderLabel = ({ label, name, errors, type }: Labelled & { errors: any, type: string } ): JSX.Element => {
+const TextInputUnderLabel = ({ label, name, errors, type, k }: Labelled & { errors: any, type: string, k: number } ): JSX.Element => {
   return (
     <>
       <label
+        key={ `label${ k }` }
         htmlFor={ name }
         className='form__label'
       >
         { label }
       </label>
       <input
+        key={ `input${ k }` }
         id={ name }
         className='form__main'
         type={ type }
       />
       { errors && (
-        <div className='form__error'>
+        <div className='form__error' key={ `error${ k }` }>
           { errors[ name ] } 
         </div>
       )}
@@ -41,10 +43,11 @@ const TextInputUnderLabel = ({ label, name, errors, type }: Labelled & { errors:
   )
 }
 
-const FormButton = ({ label, callback } : LabeledButton ) => {
+const FormButton = ({ label, callback, k } : LabeledButton & { k: number } ) => {
   const ctx: any = useContext( AppContext )
   return (
     <button
+      key={ `button${ k }` }
       onClick={ callback || null }
       className={ `form__button button-${ ctx.info.theme }` }
     >
@@ -55,11 +58,13 @@ const FormButton = ({ label, callback } : LabeledButton ) => {
 
 export const useBuildForm = ( data: BuildFormProps[], errors: any ): any[] => {
   const elements: any[] = []
-  data.forEach( d => {
+  data.forEach(( d, index: number ) => {
     switch( d.type ) {
       case 'text':
         elements.push(
           <TextInputUnderLabel
+            key={ `formelement${ index }`}
+            k={ index }
             label={ d.label }
             name={ d.name }
             errors={ errors }
@@ -69,6 +74,8 @@ export const useBuildForm = ( data: BuildFormProps[], errors: any ): any[] => {
       case 'password':
         elements.push(
           <TextInputUnderLabel
+            key={ `formelement${ index }`}
+            k={ index }
             label={ d.label }
             name={ d.name }
             errors={ errors }
@@ -78,6 +85,8 @@ export const useBuildForm = ( data: BuildFormProps[], errors: any ): any[] => {
       case 'button':
         elements.push(
           <FormButton
+            key={ `formelement${ index }`}
+            k={ index }
             label={ d.label }
             name={ d.name }
             callback={ d.callback }
