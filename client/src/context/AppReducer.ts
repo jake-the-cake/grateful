@@ -38,6 +38,7 @@ export const AppReducer = ( state: ReducerProps, action: any ) => {
       state.url = action.url
       return state
     default:
+      console.log( 'nothing happened' )
       return state
   }
 }
