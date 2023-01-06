@@ -4,7 +4,7 @@ import { CustomForm } from "../../forms/CustomForm"
 import { useFetch } from "../../hooks/UseFetch"
 import { useValidation } from "../../hooks/UseValidation"
 
-const displayErrors = ( data: ResponseObjectProps, setErrors: Dispatch<SignUpErrorsProps | null> ) => {
+const displayErrors = ( data: ResponseObjectProps, setErrors: Dispatch<AuthErrorProps | null> ) => {
   const errorArray: any = []
   data.errors!.forEach(( err: any ) => {
     errorArray.push( err.message.split( '-' )[ 1 ].trim() )
@@ -27,14 +27,14 @@ export interface ResponseObjectProps {
   errors: ErrorResponseProps[] | null
 }
 
-type SignUpErrorsProps = {
+export type AuthErrorProps = {
   email?: string
   password?: string
   confirm?: string
 }
 
 export const SignUpPage = () => {
-  const [ errors, setErrors ] = useState<SignUpErrorsProps | null>(null)
+  const [ errors, setErrors ] = useState<AuthErrorProps | null>(null)
   const navigate = useNavigate()
 
   const handleSignUp = ( event: MouseEvent<HTMLButtonElement> ): void => {
