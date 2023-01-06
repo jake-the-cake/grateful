@@ -1,19 +1,8 @@
-import React, { Dispatch, MouseEvent, useState } from "react"
+import React, { MouseEvent, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CustomForm } from "../../forms/CustomForm"
-import { useFetch } from "../../hooks/UseFetch"
-import { useValidation } from "../../hooks/UseValidation"
-
-const displayErrors = ( data: ResponseObjectProps, setErrors: Dispatch<AuthErrorProps | null> ) => {
-  const errorArray: any = []
-  data.errors!.forEach(( err: any ) => {
-    errorArray.push( err.message.split( '-' )[ 1 ].trim() )
-  })
-  errorArray.forEach(( err: string, index: number ) => {
-    errorArray[ err ] = ( data.errors![ index ].message as any ).replaceAll( '-', '')
-  })
-  setErrors( errorArray )
-}
+import { signUpElements } from "../../forms/form-data/signUpElements"
+import { handleSignUp } from "../../handlers/handleSignUp"
 
 export type ErrorResponseProps = {
   type: string
@@ -37,62 +26,14 @@ export const SignUpPage = () => {
   const [ errors, setErrors ] = useState<AuthErrorProps | null>(null)
   const navigate = useNavigate()
 
-  const handleSignUp = ( event: MouseEvent<HTMLButtonElement> ): void => {
+  const handleEvent = ( event: MouseEvent<HTMLButtonElement> ): void => {
     event.preventDefault()
-    //object with input values
-    const inputs = {
-      email: ( document.getElementById( 'email' ) as HTMLInputElement ).value,
-      password: ( document.getElementById( 'password' ) as HTMLInputElement ).value,
-      confirm: ( document.getElementById( 'confirm' ) as HTMLInputElement ).value
-    }
-    // init error array
-    const errorObject: any = {}
-    // run frontend checks
-    if ( !useValidation( inputs ).success ) errorObject.email = 'This email address is invalid.'
-    if ( inputs.password.length < 6 ) errorObject.password = 'Passwords must be 6+ characters.'
-    if ( inputs.password !== inputs.confirm ) errorObject.confirm = 'These passwords do not match.'
-  
-    if ( Object.keys( errorObject ).length > 0 ) {
-      setErrors( errorObject )
-    }
-    else {
-      setErrors( null )
-      useFetch( 'POST', '/user/add', { body: inputs })
-        .then( d => d.json() )
-        .then(( data: ResponseObjectProps ) => {
-          console.log( data )
-          if( !data.errors ) navigate( '/grateful' )
-          else displayErrors( data, setErrors )
-        })
-        .catch(( err ) => console.log( err.message ))
-    }
+    handleSignUp( event, setErrors, navigate )
   }
 
   return (
     <CustomForm
-      data={[
-        {
-          type: 'text',
-          name: 'email',
-          stack: 'vertical',
-          label: 'Email Address',
-        },{
-          type: 'password',
-          name: 'password',
-          stack: 'vertical',
-          label: 'Password'
-        },{
-          type: 'password',
-          name: 'confirm',
-          stack: 'vertical',
-          label: 'Confirm Password'
-        },{
-          type: 'button',
-          name: 'signup',
-          label: 'Create Account',
-          callback: handleSignUp
-        }
-      ]}
+      data={ signUpElements({ submit: handleEvent }) }
       errors={ errors }
     />
   )
