@@ -1,13 +1,15 @@
 import React, { createContext, Dispatch, Reducer, useReducer } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Grateful } from './pages/Grateful'
+import { Gratitude } from './pages/Gratitude'
 import { Footer } from './components/Footer'
 import { Home } from './pages/Home'
 import { Homepage } from './pages/home-screens/Homepage'
 import { SignUpPage } from './pages/home-screens/SignUpPage'
 import { LoginPage } from './pages/home-screens/LoginPage'
 import { AppReducer, ReducerProps } from './context/AppReducer'
+import { Motivation } from './pages/Motivation'
+import { Improvement } from './pages/Improvement'
 
 export const AppContext: any = createContext({})
 
@@ -30,16 +32,36 @@ export const App: () => JSX.Element = () => {
               <Route path='login' element={ <Home element={ <LoginPage /> } /> }/>
             </Route>
             <Route
-              path='/grateful'
+              path='/gratitude'
               element={
-                <Grateful
+                <Gratitude
                   title='gratitude'
                   theme='green'
                 />
               }
             />
-            {/* <Route path='' element={} /> */}
-            {/* <Route path='' element={} /> */}
+            <Route path='motivation'>
+              <Route 
+                path='' 
+                element={
+                  <Motivation
+                    title='motivation'
+                    theme='purple'
+                  />
+                }
+              />
+            </Route>
+            <Route path='improvement'>
+              <Route 
+                path='' 
+                element={
+                  <Improvement
+                    title='improvement'
+                    theme='blue'
+                  />
+                }
+              />
+            </Route>
           </Routes>
           <Footer />
         </BrowserRouter>

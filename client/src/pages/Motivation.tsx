@@ -9,16 +9,16 @@ export interface PageProps {
   theme: string
 }
 
-export const Grateful: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
-  useSetPageProps( theme, '/grateful' )
+export const Motivation: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
+  useSetPageProps( theme, '/gratitude' )
 
   return (
     <>
       <PageTitle
         title={ title }
         theme={ theme }
-        left={ PAGE_TITLE_ARROWS.IMPROVEMENT }
-        right={ PAGE_TITLE_ARROWS.MOTIVATION }
+        left={ PAGE_TITLE_ARROWS.GRATITUDE }
+        right={ PAGE_TITLE_ARROWS.IMPROVEMENT }
       />
       <SubmitForm
         label='I am grateful for'

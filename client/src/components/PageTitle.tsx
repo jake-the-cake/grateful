@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 export interface PageTitleProps {
   title: string
@@ -13,7 +14,7 @@ export const enum PAGE_TITLE_ARROWS {
   IMPROVEMENT
 }
 
-const PageArrowReducer = ( arrow: PAGE_TITLE_ARROWS, icon: string ) => {
+const PageArrowReducer = ( arrow: PAGE_TITLE_ARROWS, icon: string, navigate: any ) => {
   const arrowObject = {
     theme: '',
     url: ''
@@ -21,35 +22,36 @@ const PageArrowReducer = ( arrow: PAGE_TITLE_ARROWS, icon: string ) => {
   switch ( arrow ) {
     case PAGE_TITLE_ARROWS.GRATITUDE:
       arrowObject.theme = 'green'
-      arrowObject.url = '/grateful'
+      arrowObject.url = '/gratitude'
       break
     case PAGE_TITLE_ARROWS.IMPROVEMENT:
       arrowObject.theme = 'blue'
-      arrowObject.url = '/grateful'
+      arrowObject.url = '/improvement'
       break
     case PAGE_TITLE_ARROWS.MOTIVATION:
       arrowObject.theme = 'purple'
-      arrowObject.url = '/grateful'
+      arrowObject.url = '/motivation'
       break
     default:
       return false
   }
   return (
-    <div className={ `arrow__container ${ arrowObject.theme }-text arrow-${ arrowObject.theme }` }>{ icon || 'nothing' }</div>
+    <div className={ `arrow__container ${ arrowObject.theme }-text arrow-${ arrowObject.theme }` } onClick={ () => { navigate( arrowObject.url )} }>{ icon || 'nothing' }</div>
   )
 }
 
 export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ title, theme, left, right }) => {
+  const navigate = useNavigate()
   return (
     <div className='page__title--container'>
       {
-        left !== undefined && PageArrowReducer( left, '<' )
+        left !== undefined && PageArrowReducer( left, '<', navigate )
       }
       <span className={ `page__title--text ${ theme }-text` }>
         { title }.
       </span>
       {
-        right !== undefined && PageArrowReducer( right, '>' )
+        right !== undefined && PageArrowReducer( right, '>', navigate )
       }
     </div>
   )

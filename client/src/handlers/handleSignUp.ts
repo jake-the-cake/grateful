@@ -26,7 +26,7 @@ export const handleSignUp = ( event, setErrors, navigate ) => {
         .then( d => d.json() )
         .then(( data: ResponseObjectProps ) => {
           console.log( data )
-          if( !data.errors ) navigate( '/grateful' )
+          if( !data.errors ) navigate( '/gratitude' )
           else displayErrors( data, setErrors )
         })
         .catch(( err ) => console.log( err.message ))
