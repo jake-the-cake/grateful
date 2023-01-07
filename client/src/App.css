@@ -91,6 +91,7 @@ body {
 }
 
 .button-green { background-color: var(--green); }
+.button-blue { background-color: var(--blue); }
 .button-red { background-color: var(--red); }
 .button-purple { background-color: var(--purple); }
 
