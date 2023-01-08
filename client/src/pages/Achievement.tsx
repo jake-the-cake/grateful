@@ -11,6 +11,7 @@ export interface PageProps {
 
 export const Achievement: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
   const thisPage: any = useSetPageProps()
+  console.log( thisPage )
 
   return (
     <>

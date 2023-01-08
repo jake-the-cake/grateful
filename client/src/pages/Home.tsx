@@ -10,16 +10,16 @@ export interface PageProps {
 }
 
 export const Home = ({ element }: PageProps ): JSX.Element => {
-  const title = 'today'
   const theme = 'blue'
 
   const thisPage: any = useSetPageProps()
+  console.log( thisPage )
 
   return (
     <>
       <PageTitle
         title={ thisPage.title || 'no title' }
-        theme={ theme }
+        theme={ thisPage.theme || 'red' }
         thisPage={ thisPage }
       />
       { element }

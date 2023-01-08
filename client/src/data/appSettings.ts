@@ -8,18 +8,27 @@ export const appSettings = {
 		},
 		gratitude: {
 			url: '/gratitude',
-			theme: 'purple',
+			theme: 'green',
+			title: 'gratitude',
 			screens: []
 		},
 		inspiration: {
 			url: '/inspiration',
 			theme: 'purple',
+			title: 'inspiration',
 			screens: []
 		},
 		achievement: {
 			url: '/achievement',
 			theme: 'purple',
+			title: 'achievement',
 			screens: []
 		}
+	},
+	routes: {
+		main: [ '/', '/gratitude', '/inspiration', '/achievement'	]
+	},
+	api: {
+		baseUrl: 'http://localhost:4200'
 	}
 }
