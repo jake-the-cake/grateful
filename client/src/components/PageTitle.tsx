@@ -24,13 +24,9 @@ export const enum PAGE_TITLE_ARROWS {
 }
 
 const NavigationArrow: NavigationArrowProps = ({ destination, icon, navigate }) => {
-  const { pages } = appSettings
-  const arrowObject = {
-    theme: pages[ destination ].theme || 'dark',
-    url: pages[ destination ].url || '/',
-  }
+  const page = appSettings.pages[ destination ]
   return (
-    <div className={ `arrow__container ${ arrowObject.theme }-text arrow-${ arrowObject.theme }` } onClick={ () => { navigate( arrowObject.url )} }>{ icon || 'nothing' }</div>
+    <div className={ `arrow__container ${ page.theme }-text arrow-${ page.theme }` } onClick={ () => { navigate( page.url )} }>{ icon || 'nothing' }</div>
   )
 }
 
