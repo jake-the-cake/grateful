@@ -47,7 +47,7 @@ export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows, th
         ? (
           <>
           <span className='form__label'>{ errorMessage }</span>
-          <button onClick={ () => setErrorMessage( '' )} className='form__button'>Actually, There Is!</button>
+          <button onClick={ () => setErrorMessage( '' )} className={ `form__button button-${ thisPage.theme }` }>Actually, There Is!</button>
           <button onClick={ ( e ) => handleSumbitItem( e, '' ) } className='form__button form__button--secondary'>I'm Sure</button>
           </>
         )
