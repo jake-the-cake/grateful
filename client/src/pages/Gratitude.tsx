@@ -6,14 +6,12 @@ import { useSetPageProps } from '../hooks/UseSetPageProps'
 
 export const Gratitude: () => JSX.Element = () => {
   const thisPage: any = useSetPageProps()
+  thisPage.left = PAGE_TITLE_ARROWS.ACHIEVEMENT
+  thisPage.right = PAGE_TITLE_ARROWS.INSPIRATION
 
   return (
     <>
-      <PageTitle
-        thisPage={ thisPage }
-        left={ PAGE_TITLE_ARROWS.IMPROVEMENT }
-        right={ PAGE_TITLE_ARROWS.MOTIVATION }
-      />
+      <PageTitle thisPage={ thisPage } />
       <SubmitForm
         label='I am grateful for'
         placeholder='Speak your mind...'
