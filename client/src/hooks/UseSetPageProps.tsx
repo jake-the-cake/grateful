@@ -2,19 +2,19 @@ import { useContext } from "react"
 import { AppContext } from "../App"
 import { appSettings } from "../data/appSettings"
 
-export const returnBasePath = () => {
+export const returnBaseDir = () => {
   const { routes } = appSettings 
-  const basePath = '/' + window.location.pathname.split( '/' )[ 1 ]
-  if ( !routes.main.includes( basePath )) return '/'
-  return basePath
+  const baseDir = '/' + window.location.pathname.split( '/' )[ 1 ]
+  if ( !routes.main.includes( baseDir )) return '/'
+  return baseDir
 }
 
 export const loadPageSettings = ( obj?: any ) => {
   const { pages } = appSettings
-  if ( !obj ) obj = { basePath: returnBasePath() }
+  if ( !obj ) obj = { baseDir: returnBaseDir() }
   Object.keys( pages ).forEach( pg => {
     const page = pages[ pg ]
-    if ( page.url === obj.basePath ) {
+    if ( page.url === obj.baseDir ) {
       obj.theme = page.theme
       obj.page = page
     }
@@ -25,12 +25,11 @@ export const loadPageSettings = ( obj?: any ) => {
 export const useSetPageProps = () => {
   // import context and app settings
   const ctx: any = useContext( AppContext )
-  const { pages, routes } = appSettings
   
   // create function object
   const thisObj = {
     path: window.location.pathname,
-    basePath: returnBasePath(),
+    baseDir: returnBaseDir(),
     theme: 'dark',
     page: null
   }

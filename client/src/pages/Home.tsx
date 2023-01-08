@@ -8,7 +8,7 @@ export interface PageProps {
 }
 
 export const Home = ({ element }: PageProps ): JSX.Element => {
-  const thisPage: any = useSetPageProps()
+  const thisPage = useSetPageProps()
 
   return (
     <>

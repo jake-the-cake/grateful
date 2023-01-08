@@ -1,10 +1,11 @@
 :root {
   --dark: #373737;
   --light: #dadada;
-  --blue: hsl(200, 70%, 60%);
-  --green: hsl(140, 70%, 60%);
-  --red: hsl(10 70% 60% / 1);
-  --purple: hsl(320 70% 60% / 1);
+  --blue: hsl(200, 70%, 40%);
+  --green: hsl(140, 70%, 40%);
+  --red: hsl(15 70% 40% / 1);
+  --purple: hsl(310 70% 40% / 1);
+  --yellow: hsl(65, 80%, 50%);
 }
 
 * {
@@ -97,7 +98,8 @@ body {
 
 .form__button:hover {
   cursor: pointer;
-  background-color: var(--blue);
+  background-color: var(--yellow);
+  color: var(--dark);
   box-shadow: 0 2px 10px -4px var(--dark),
             inset 0 -2px 8px -2px var(--dark);
   opacity: 1;

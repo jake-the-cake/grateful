@@ -2,7 +2,7 @@ export const appSettings = {
 	pages: {
 		home: {
 			url: '/',
-			theme: 'blue',
+			theme: 'purple',
 			title: 'today',
 			screens: []
 		},
@@ -14,13 +14,13 @@ export const appSettings = {
 		},
 		inspiration: {
 			url: '/inspiration',
-			theme: 'purple',
+			theme: 'blue',
 			title: 'inspiration',
 			screens: []
 		},
 		achievement: {
 			url: '/achievement',
-			theme: 'purple',
+			theme: 'red',
 			title: 'achievement',
 			screens: []
 		}
