@@ -2,40 +2,47 @@ import { useContext } from "react"
 import { AppContext } from "../App"
 import { appSettings } from "../data/appSettings"
 
+export const returnBasePath = () => {
+  const { routes } = appSettings 
+  const basePath = '/' + window.location.pathname.split( '/' )[ 1 ]
+  if ( !routes.main.includes( basePath )) return '/'
+  return basePath
+}
+
+export const loadPageSettings = ( obj?: any ) => {
+  const { pages } = appSettings
+  if ( !obj ) obj = { basePath: returnBasePath() }
+  Object.keys( pages ).forEach( pg => {
+    const page = pages[ pg ]
+    if ( page.url === obj.basePath ) {
+      obj.theme = page.theme
+      obj.page = page
+    }
+  })
+  return obj
+}
+
 export const useSetPageProps = () => {
   // import context and app settings
   const ctx: any = useContext( AppContext )
   const { pages, routes } = appSettings
-
-  // handle exception for '/...' routes
-  const thisBasePath = () => {
-    const basePath = '/' + window.location.pathname.split( '/' )[ 1 ]
-    if ( !routes.main.includes( basePath )) return '/'
-    return basePath
-  }
   
   // create function object
   const thisObj = {
     path: window.location.pathname,
-    basePath: thisBasePath(),
+    basePath: returnBasePath(),
     theme: 'dark',
     page: null
   }
-  
-  // locate and load page settings
-  Object.keys( pages ).forEach( pg => {
-    const page = pages[ pg ]
-    console.log( page.url, thisObj.basePath )
-    if ( page.url === thisObj.basePath ) {
-      thisObj.theme = page.theme
-      thisObj.page = page
-    }
-  })
 
-  // execute changes
+  // load then execute changes
+  loadPageSettings( thisObj )
   ctx.dispatch({ type: 'SET-THEME', theme: thisObj.theme })
   ctx.dispatch({ type: 'SET-URL', url: thisObj.path })
 
-  // return page settings info
-  return thisObj.page || { error: 'No page settings found.' }
+  // return page info or error
+  return thisObj.page || { error: {
+    type: 404,
+    message: `No page settings found for ${ thisObj.path }`
+  } }
 }

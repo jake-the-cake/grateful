@@ -1,7 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router'
-import { AppContext } from '../App'
-import { appSettings } from '../data/appSettings'
 
 export interface PageTitleProps {
   thisPage?: any

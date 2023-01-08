@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useFetch } from '../hooks/UseFetch'
+import { loadPageSettings } from '../hooks/UseSetPageProps'
 
 type SubmitFormProps = ( props: {
     label: string,
@@ -10,6 +11,7 @@ type SubmitFormProps = ( props: {
   }) => JSX.Element
 
 export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows, theme }) => {
+  const thisPage: any = loadPageSettings()
   const [ errorMessage, setErrorMessage ] = useState( '' )
 
   const handleSumbitItem = ( event: any, item: string ) => {
@@ -53,7 +55,7 @@ export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows, th
         <>
           <label htmlFor='grateful' className='form__label'>{ label }</label>
           <textarea name="grateful" className='form__main' id="grateful" cols={ cols || 30 } rows={ rows || 4 } placeholder={ placeholder }></textarea>
-          <button onClick={ handleAddItem } className={`form__button button-${ theme }`}>Add</button>
+          <button onClick={ handleAddItem } className={`form__button button-${ thisPage.theme }`}>Add</button>
         </>
         )
       }
