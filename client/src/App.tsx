@@ -8,8 +8,8 @@ import { Homepage } from './pages/home-screens/Homepage'
 import { SignUpPage } from './pages/home-screens/SignUpPage'
 import { LoginPage } from './pages/home-screens/LoginPage'
 import { AppReducer, ReducerProps } from './context/AppReducer'
-import { Motivation } from './pages/Motivation'
-import { Improvement } from './pages/Improvement'
+import { Inspiration } from './pages/Inspiration'
+import { Achievement } from './pages/Achievement'
 
 export const AppContext: any = createContext({})
 
@@ -40,23 +40,23 @@ export const App: () => JSX.Element = () => {
                 />
               }
             />
-            <Route path='motivation'>
+            <Route path='inspiration'>
               <Route 
                 path='' 
                 element={
-                  <Motivation
-                    title='motivation'
+                  <Inspiration
+                    title='inspiration'
                     theme='purple'
                   />
                 }
               />
             </Route>
-            <Route path='improvement'>
+            <Route path='achievement'>
               <Route 
                 path='' 
                 element={
-                  <Improvement
-                    title='improvement'
+                  <Achievement
+                    title='achievement'
                     theme='blue'
                   />
                 }

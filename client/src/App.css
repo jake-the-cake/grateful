@@ -1,10 +1,10 @@
 :root {
   --dark: #373737;
   --light: #dadada;
-  --blue: hsl(170 50% 50% / 1);
-  --green: hsl(110 50% 50% / 1);
-  --red: hsl(350 50% 50% / 1);
-  --purple: hsl(290 50% 50% / 1);
+  --blue: hsl(200, 70%, 60%);
+  --green: hsl(140, 70%, 60%);
+  --red: hsl(10 70% 60% / 1);
+  --purple: hsl(320 70% 60% / 1);
 }
 
 * {

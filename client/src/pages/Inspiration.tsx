@@ -9,8 +9,8 @@ export interface PageProps {
   theme: string
 }
 
-export const Motivation: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
-  useSetPageProps( theme, '/gratitude' )
+export const Inspiration: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
+  useSetPageProps()
 
   return (
     <>

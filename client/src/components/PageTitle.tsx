@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 export interface PageTitleProps {
   title: string
   theme: string
+  thisPage?: any
   left?: PAGE_TITLE_ARROWS
   right?: PAGE_TITLE_ARROWS
 }
@@ -26,11 +27,11 @@ const PageArrowReducer = ( arrow: PAGE_TITLE_ARROWS, icon: string, navigate: any
       break
     case PAGE_TITLE_ARROWS.IMPROVEMENT:
       arrowObject.theme = 'blue'
-      arrowObject.url = '/improvement'
+      arrowObject.url = '/achievement'
       break
     case PAGE_TITLE_ARROWS.MOTIVATION:
       arrowObject.theme = 'purple'
-      arrowObject.url = '/motivation'
+      arrowObject.url = '/inspiration'
       break
     default:
       return false
@@ -40,8 +41,9 @@ const PageArrowReducer = ( arrow: PAGE_TITLE_ARROWS, icon: string, navigate: any
   )
 }
 
-export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ title, theme, left, right }) => {
+export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ title, theme, left, right, thisPage }) => {
   const navigate = useNavigate()
+  console.log( thisPage )
   return (
     <div className='page__title--container'>
       {

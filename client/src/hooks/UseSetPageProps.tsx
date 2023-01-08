@@ -1,17 +1,32 @@
 import { useContext, useEffect } from "react"
 import { AppContext } from "../App"
+import { appSettings } from "../data/appSettings"
 
-export const useSetPageProps = ( theme, url ) => {
-  const CTX: any = useContext( AppContext )
+export const useSetPageProps = () => {
+  const ctx: any = useContext( AppContext )
+  const thisPath = window.location.pathname
+  let thisTheme = 'red'
+  let thisPage = {}
   
-  useEffect(() => {
-    if ( CTX.info.theme !== theme ) {
-      CTX.dispatch({ type: 'SET-THEME', theme })
+  // find theme
+  const { pages } = appSettings
+  Object.keys( pages ).forEach( pg => {
+    const page = pages[ pg ]
+    if ( page.url === thisPath ) {
+      thisTheme = page.theme
+      thisPage = page
     }
-    if ( CTX.info.url !== url ) {
-      CTX.dispatch({ type: 'SET-URL', url })
+  })
+
+  // set
+  useEffect(() => {
+    if ( ctx.info.theme !== thisTheme ) {
+      ctx.dispatch({ type: 'SET-THEME', theme: thisTheme })
+    }
+    if ( ctx.info.url !== thisPath ) {
+      ctx.dispatch({ type: 'SET-URL', url: thisPath })
     }
   }, [])
-
-  console.log( CTX )
+  
+  return thisPage
 }

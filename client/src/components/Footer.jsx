@@ -9,8 +9,8 @@ export const Footer = () => {
       </div>
       <div className='footer__links'>
         <Link className='footer__link' to='/gratitude'>Contact</Link>
-        <Link className='footer__link' to='/motivation'>About</Link>
-        <Link className='footer__link' to='/improvement'>Privacy</Link>
+        <Link className='footer__link' to='/inspiration'>About</Link>
+        <Link className='footer__link' to='/achievement'>Privacy</Link>
         <Link className='footer__link' to='/'>Terms</Link>
       </div>
     </div>

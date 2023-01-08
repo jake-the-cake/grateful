@@ -11,14 +11,16 @@ export interface PageProps {
 
 export const Home = ({ element }: PageProps ): JSX.Element => {
   const title = 'today'
-  const theme = 'red'
-  useSetPageProps( theme, '/' )
+  const theme = 'blue'
+
+  const thisPage: any = useSetPageProps()
 
   return (
     <>
       <PageTitle
-        title={ title }
+        title={ thisPage.title || 'no title' }
         theme={ theme }
+        thisPage={ thisPage }
       />
       { element }
       <Menu

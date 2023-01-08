@@ -9,13 +9,15 @@ export interface PageProps {
   theme: string
 }
 
-export const Improvement: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
-  useSetPageProps( theme, '/gratitude' )
+export const Achievement: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
+  const thisPage: any = useSetPageProps()
 
   return (
     <>
       <PageTitle
-        title={ title }
+        // title={ title }
+        title={ thisPage.title || 'no title' }
+        thisPage={ thisPage }
         theme={ theme }
         left={ PAGE_TITLE_ARROWS.MOTIVATION }
         right={ PAGE_TITLE_ARROWS.GRATITUDE }

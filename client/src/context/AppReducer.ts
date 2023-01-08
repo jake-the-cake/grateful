@@ -6,7 +6,6 @@ export interface ReducerProps {
 }
 
 export const AppReducer = ( state: ReducerProps, action: any ) => {
-
   switch ( action.type ) {
     case 'SET-THEME':
       if ( !action.theme ) {
