@@ -12,30 +12,30 @@ export type BuildFormProps = {
 type Labelled = {
   label: string
   name: string
+  errors?: any
+  type?: string
 }
 
 type LabeledButton = Labelled & {
   callback?: any
 }
 
-const TextInputUnderLabel = ({ label, name, errors, type, k }: Labelled & { errors: any, type: string, k: number } ): JSX.Element => {
+const TextInputUnderLabel = ({ label, name, errors, type }: Labelled ): JSX.Element => {
   return (
     <>
       <label
-        key={ `label${ k }` }
         htmlFor={ name }
         className='form__label'
       >
         { label }
       </label>
       <input
-        key={ `input${ k }` }
         id={ name }
         className='form__main'
         type={ type }
       />
       { errors && (
-        <div className='form__error' key={ `error${ k }` }>
+        <div className='form__error'>
           { errors[ name ] } 
         </div>
       )}
@@ -43,11 +43,10 @@ const TextInputUnderLabel = ({ label, name, errors, type, k }: Labelled & { erro
   )
 }
 
-const FormButton = ({ label, callback, k } : LabeledButton & { k: number } ) => {
+const FormButton = ({ label, callback } : LabeledButton ) => {
   const ctx: any = useContext( AppContext )
   return (
     <button
-      key={ `button${ k }` }
       onClick={ callback || null }
       className={ `form__button button-${ ctx.info.theme }` }
     >
@@ -64,7 +63,6 @@ export const useBuildForm = ( data: BuildFormProps[], errors: any ): any[] => {
         elements.push(
           <TextInputUnderLabel
             key={ `formelement${ index }`}
-            k={ index }
             label={ d.label }
             name={ d.name }
             errors={ errors }
@@ -75,7 +73,6 @@ export const useBuildForm = ( data: BuildFormProps[], errors: any ): any[] => {
         elements.push(
           <TextInputUnderLabel
             key={ `formelement${ index }`}
-            k={ index }
             label={ d.label }
             name={ d.name }
             errors={ errors }
@@ -86,7 +83,6 @@ export const useBuildForm = ( data: BuildFormProps[], errors: any ): any[] => {
         elements.push(
           <FormButton
             key={ `formelement${ index }`}
-            k={ index }
             label={ d.label }
             name={ d.name }
             callback={ d.callback }

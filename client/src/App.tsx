@@ -31,36 +31,14 @@ export const App: () => JSX.Element = () => {
               <Route path='signup' element={ <Home element={ <SignUpPage /> } /> }/>
               <Route path='login' element={ <Home element={ <LoginPage /> } /> }/>
             </Route>
-            <Route
-              path='/gratitude'
-              element={
-                <Gratitude
-                  title='gratitude'
-                  theme='green'
-                />
-              }
-            />
+            <Route path='gratitude'>
+              <Route path='' element={ <Gratitude /> } />
+            </Route>
             <Route path='inspiration'>
-              <Route 
-                path='' 
-                element={
-                  <Inspiration
-                    title='inspiration'
-                    theme='purple'
-                  />
-                }
-              />
+              <Route path='' element={ <Inspiration /> } />
             </Route>
             <Route path='achievement'>
-              <Route 
-                path='' 
-                element={
-                  <Achievement
-                    title='achievement'
-                    theme='blue'
-                  />
-                }
-              />
+              <Route path='' element={ <Achievement /> } />
             </Route>
           </Routes>
           <Footer />

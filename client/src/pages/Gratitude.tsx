@@ -4,19 +4,13 @@ import { PageTitle, PAGE_TITLE_ARROWS } from '../components/PageTitle'
 import { SubmitForm } from '../components/SubmitForm'
 import { useSetPageProps } from '../hooks/UseSetPageProps'
 
-export interface PageProps {
-  title: string
-  theme: string
-}
-
-export const Gratitude: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
-  useSetPageProps( theme, '/gratitude' )
+export const Gratitude: () => JSX.Element = () => {
+  const thisPage: any = useSetPageProps()
 
   return (
     <>
       <PageTitle
-        title={ title }
-        theme={ theme }
+        thisPage={ thisPage }
         left={ PAGE_TITLE_ARROWS.IMPROVEMENT }
         right={ PAGE_TITLE_ARROWS.MOTIVATION }
       />
@@ -25,7 +19,7 @@ export const Gratitude: ( props: PageProps ) => JSX.Element = ({ title, theme })
         placeholder='Speak your mind...'
         cols={ 30 }
         rows={ 8 }
-        theme={ theme }
+        theme={ thisPage.theme }
       />
       <Menu
         cells={[

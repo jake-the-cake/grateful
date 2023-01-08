@@ -9,17 +9,13 @@ export interface PageProps {
   theme: string
 }
 
-export const Achievement: ( props: PageProps ) => JSX.Element = ({ title, theme }) => {
+export const Achievement: () => JSX.Element = () => {
   const thisPage: any = useSetPageProps()
-  console.log( thisPage )
 
   return (
     <>
       <PageTitle
-        // title={ title }
-        title={ thisPage.title || 'no title' }
         thisPage={ thisPage }
-        theme={ theme }
         left={ PAGE_TITLE_ARROWS.MOTIVATION }
         right={ PAGE_TITLE_ARROWS.GRATITUDE }
       />
@@ -28,7 +24,7 @@ export const Achievement: ( props: PageProps ) => JSX.Element = ({ title, theme 
         placeholder='Speak your mind...'
         cols={ 30 }
         rows={ 8 }
-        theme={ theme }
+        theme={ thisPage.theme }
       />
       <Menu
         cells={[

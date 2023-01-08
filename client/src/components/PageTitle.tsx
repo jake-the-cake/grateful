@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router'
+import { AppContext } from '../App'
+import { appSettings } from '../data/appSettings'
 
 export interface PageTitleProps {
-  title: string
-  theme: string
   thisPage?: any
   left?: PAGE_TITLE_ARROWS
   right?: PAGE_TITLE_ARROWS
@@ -41,16 +41,15 @@ const PageArrowReducer = ( arrow: PAGE_TITLE_ARROWS, icon: string, navigate: any
   )
 }
 
-export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ title, theme, left, right, thisPage }) => {
+export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ left, right, thisPage }) => {
   const navigate = useNavigate()
-  console.log( thisPage )
   return (
     <div className='page__title--container'>
       {
         left !== undefined && PageArrowReducer( left, '<', navigate )
       }
-      <span className={ `page__title--text ${ theme }-text` }>
-        { title }.
+      <span className={ `page__title--text ${ thisPage.theme || 'dark' }-text` }>
+        { thisPage.title || 'no title' }.
       </span>
       {
         right !== undefined && PageArrowReducer( right, '>', navigate )
