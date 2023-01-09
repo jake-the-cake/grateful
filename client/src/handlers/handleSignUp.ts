@@ -3,6 +3,7 @@ import { useValidation } from "../hooks/UseValidation"
 import { ResponseObjectProps } from "../pages/home-screens/SignUpPage"
 import { displayErrors } from "./displayErrors"
 import bc from 'bcryptjs'
+import { appSettings } from "../data/appSettings"
 
 export const handleSignUp = ( event, setErrors, navigate ) => {
 	//object with input values
@@ -20,16 +21,6 @@ export const handleSignUp = ( event, setErrors, navigate ) => {
   if ( inputs.password.length < 1 ) errorObject.password = 'A password is required.'
   if ( inputs.password !== inputs.confirm ) errorObject.confirm = 'These passwords do not match.'
   
-  
-  // bc.compare( '', inputs.password, function(err, result) {
-  //   if (result) {
-  //     console.log("It matches!")
-  //   }
-  //   else {
-  //     console.log("Invalid password!")
-  //   }
-  // })
-  
   if ( Object.keys( errorObject ).length > 0 ) {
     setErrors( errorObject )
   }
@@ -43,7 +34,7 @@ export const handleSignUp = ( event, setErrors, navigate ) => {
           .then( d => d.json() )
           .then(( data: ResponseObjectProps ) => {
             console.log( data )
-            if( !data.errors ) navigate( '/gratitude' )
+            if( !data.errors ) navigate( appSettings.pages.defaults.postAuthUrl )
             else displayErrors( data, setErrors )
           })
           .catch(( err ) => console.log( err.message ))
