@@ -6,6 +6,11 @@ const createErrorLog = (errorCode) => {
     if (errorCode.slice(0, 2) === 'no')
         return (0, notProvided_1.notProvided)(errorCode.replace('no', ''));
     switch (errorCode) {
+        case '404user':
+            return {
+                type: "NotFound" /* ErrorTypes.NotFound */,
+                message: 'User not found.'
+            };
         case 'server':
             return {
                 type: "Internal" /* ErrorTypes.Server */,

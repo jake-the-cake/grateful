@@ -6,6 +6,7 @@ import { UserRouter } from './routes/UserRoutes'
 import { GratitudeRouter } from './routes/GratitudeRoutes'
 import { IndexRouter } from './routes/IndexRoutes'
 import { runInits } from './init/runInits'
+import { AuthRouter } from './routes/AuthRoutes'
 
 // init and configure app
 const app = express()
@@ -21,6 +22,7 @@ app.use( express.urlencoded({ extended: true }))
 app.use( '/', IndexRouter )
 app.use( '/user', UserRouter )
 app.use( '/gratitude', GratitudeRouter )
+app.use( '/auth', AuthRouter )
 
 // listener
 app.listen( port, () => {

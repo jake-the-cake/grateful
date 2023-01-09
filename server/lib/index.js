@@ -11,6 +11,7 @@ const UserRoutes_1 = require("./routes/UserRoutes");
 const GratitudeRoutes_1 = require("./routes/GratitudeRoutes");
 const IndexRoutes_1 = require("./routes/IndexRoutes");
 const runInits_1 = require("./init/runInits");
+const AuthRoutes_1 = require("./routes/AuthRoutes");
 // init and configure app
 const app = (0, express_1.default)();
 dotenv_1.default.config();
@@ -23,6 +24,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/', IndexRoutes_1.IndexRouter);
 app.use('/user', UserRoutes_1.UserRouter);
 app.use('/gratitude', GratitudeRoutes_1.GratitudeRouter);
+app.use('/auth', AuthRoutes_1.AuthRouter);
 // listener
 app.listen(port, () => {
     console.log(`'${serverName}' server is running on port ${port}.`);

@@ -2,6 +2,7 @@
 export const enum ErrorTypes {
     Required = 'RequiredValue',
     Duplicate = 'TakenValue',
+    NotFound = 'NotFound',
     Server = 'Internal',
     Default = 'DefaultErrorMessage'
 } 

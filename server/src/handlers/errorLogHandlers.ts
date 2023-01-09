@@ -6,6 +6,11 @@ export const createErrorLog: ( errorCode: string ) => ErrorLogProps = ( errorCod
   if ( errorCode.slice( 0, 2 ) === 'no' ) return notProvided( errorCode.replace( 'no', '' ) )
 
   switch ( errorCode ) {
+    case '404user':
+      return {
+        type: ErrorTypes.NotFound,
+        message: 'User not found.'
+      }
     case 'server':
       return {
         type: ErrorTypes.Server,
