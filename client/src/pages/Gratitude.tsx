@@ -17,16 +17,15 @@ export const Gratitude: () => JSX.Element = () => {
         placeholder='Speak your mind...'
         cols={ 30 }
         rows={ 8 }
-        theme={ thisPage.theme }
       />
       <Menu
         cells={[
           {
-            label: 'idk'
+            label: 'new'
           }, {
-            label: 'label 2'
+            label: 'past'
           }, {
-
+            label: 'ideas'
           }
         ]}
       />

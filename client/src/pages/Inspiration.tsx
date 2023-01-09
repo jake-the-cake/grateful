@@ -17,16 +17,13 @@ export const Inspiration: () => JSX.Element = () => {
         placeholder='Speak your mind...'
         cols={ 30 }
         rows={ 8 }
-        theme={ thisPage.theme }
       />
       <Menu
         cells={[
           {
-            label: 'idk'
+            label: 'get'
           }, {
-            label: 'label 2'
-          }, {
-
+            label: 'give'
           }
         ]}
       />
