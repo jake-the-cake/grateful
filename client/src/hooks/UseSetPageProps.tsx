@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { AppContext } from "../App"
 import { appSettings } from "../data/appSettings"
 
@@ -36,8 +36,10 @@ export const useSetPageProps = () => {
 
   // load then execute changes
   loadPageSettings( thisObj )
-  ctx.dispatch({ type: 'SET-THEME', theme: thisObj.theme })
-  ctx.dispatch({ type: 'SET-URL', url: thisObj.path })
+  useEffect(() => {
+    ctx.dispatch({ type: 'SET-THEME', theme: thisObj.theme })
+    ctx.dispatch({ type: 'SET-URL', url: thisObj.path })
+  }, [])
 
   // return page info or error
   return thisObj.page || { error: {

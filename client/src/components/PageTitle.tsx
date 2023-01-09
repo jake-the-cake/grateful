@@ -1,6 +1,6 @@
 import React from 'react'
-import { NavigateFunction, useNavigate } from 'react-router'
-import { appSettings } from '../data/appSettings'
+import { useNavigate } from 'react-router'
+import { NavigationArrow } from './NavigationArrow'
 
 export interface PageTitleProps {
   thisPage: {
@@ -11,23 +11,10 @@ export interface PageTitleProps {
   }
 }
 
-export type NavigationArrowProps = ( props: {
-  destination: PAGE_TITLE_ARROWS
-  icon: string
-  navigate: NavigateFunction
-}) => JSX.Element
-
 export const enum PAGE_TITLE_ARROWS {
   GRATITUDE = 'gratitude',
   INSPIRATION = 'inspiration',
   ACHIEVEMENT = 'achievement'
-}
-
-const NavigationArrow: NavigationArrowProps = ({ destination, icon, navigate }) => {
-  const page = appSettings.pages[ destination ]
-  return (
-    <div className={ `arrow__container ${ page.theme }-text arrow-${ page.theme }` } onClick={ () => { navigate( page.url )} }>{ icon || 'nothing' }</div>
-  )
 }
 
 export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ thisPage }) => {
@@ -36,7 +23,7 @@ export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ thisPage }
       {
         thisPage.left !== undefined && <NavigationArrow
           destination={ thisPage.left }
-          icon={ '<' }
+          direction={ 'left' }
           navigate={ useNavigate() }
         />
       }
@@ -46,7 +33,7 @@ export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ thisPage }
       {
         thisPage.right !== undefined && <NavigationArrow 
           destination={ thisPage.right }
-          icon={ '>' }
+          direction={ 'right' }
           navigate={ useNavigate() }
         />
       }
