@@ -1,7 +1,10 @@
 export const appSettings = {
 	pages: {
 		defaults: {
-			postAuthUrl: '/gratitude'
+			postAuthUrl: '/gratitude',
+			page: {
+				theme: 'red'
+			}
 		},
 		home: {
 			url: '/',

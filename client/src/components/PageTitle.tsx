@@ -27,7 +27,7 @@ export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ thisPage }
           navigate={ useNavigate() }
         />
       }
-      <span className={ `page__title--text ${ thisPage.theme || 'dark' }-text` }>
+      <span className={ `page__title--text ${ thisPage.theme }-text` }>
         { thisPage.title || 'no title' }.
       </span>
       {

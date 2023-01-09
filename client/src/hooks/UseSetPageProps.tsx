@@ -15,8 +15,8 @@ export const loadPageSettings = ( obj?: any ) => {
   Object.keys( pages ).forEach( pg => {
     const page = pages[ pg ]
     if ( page.url === obj.baseDir ) {
-      obj.theme = page.theme
-      obj.page = page
+      obj.theme = page.theme || obj.theme
+      obj.page =  { ...pages.defaults.page, page }
     }
   })
   return obj
@@ -25,17 +25,19 @@ export const loadPageSettings = ( obj?: any ) => {
 export const useSetPageProps = () => {
   // import context and app settings
   const ctx: any = useContext( AppContext )
-  
+  const { pages } = appSettings
+
   // create function object
   const thisObj = {
     path: window.location.pathname,
     baseDir: returnBaseDir(),
-    theme: 'dark',
+    theme: pages.defaults.page.theme,
     page: null
   }
 
   // load then execute changes
   loadPageSettings( thisObj )
+  console.log( thisObj )
   useEffect(() => {
     ctx.dispatch({ type: 'SET-THEME', theme: thisObj.theme })
     ctx.dispatch({ type: 'SET-URL', url: thisObj.path })

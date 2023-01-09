@@ -3,7 +3,7 @@ import { CustomForm } from '../../forms/CustomForm'
 import { loginElements } from '../../forms/form-data/loginElements'
 import { AuthErrorProps } from './SignUpPage'
 import { AppContext } from "../../App"
-import { ResponseObjectProps } from "./SignUpPage"
+import { ResponseObjectProps } from "./SignUpPage" // don't delete yet
 import { useFetch } from '../../hooks/UseFetch'
 import bc from 'bcryptjs'
 import { useNavigate } from 'react-router-dom'
