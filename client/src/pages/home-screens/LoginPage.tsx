@@ -41,7 +41,7 @@ export const LoginPage = (): JSX.Element => {
             console.log( inputs.password )
             bc.compare( inputs.password, queryResult[ 0 ].password, function( err, result ) {
               if ( result ) {
-                ctx.dispatch({ type: 'nothing' })
+                ctx.dispatch({ type: 'LOGIN_SUCCESS', userId: queryResult[ 0 ]._id })
                 navigate( appSettings.pages.defaults.postAuthUrl )
               }
               else {

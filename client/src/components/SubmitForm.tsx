@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AppContext } from '../App'
+import { appSettings } from '../data/appSettings'
 import { useFetch } from '../hooks/UseFetch'
 import { loadPageSettings } from '../hooks/UseSetPageProps'
 
@@ -7,10 +9,10 @@ type SubmitFormProps = ( props: {
     placeholder: string,
     cols?: number,
     rows?: number,
-    theme: string
   }) => JSX.Element
 
-export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows, theme }) => {
+export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows }) => {
+  const ctx: any = useContext( AppContext )
   const thisPage: any = loadPageSettings()
   const [ errorMessage, setErrorMessage ] = useState( '' )
 
@@ -18,7 +20,7 @@ export const SubmitForm: SubmitFormProps = ({ label, placeholder, cols, rows, th
     event.preventDefault()
     useFetch( 'POST', '/gratitude/add', {
       body: {
-        user: 'testuser',
+        user: ctx.info.user.id || 'testuser',
         note: item
       }
     })
