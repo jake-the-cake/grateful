@@ -37,7 +37,7 @@ router.delete('/delete/all', (req, res) => __awaiter(void 0, void 0, void 0, fun
 router.post('/add', (req, res) => {
     const responseObject = (0, responseHandlers_1.createResponseObject)();
     (0, runValidation_1.runValidation)((0, validationHandlers_1.createValidationObject)(responseObject, req.body), {
-        required: ['note', 'user']
+        required: ['user']
     });
     if (responseObject.errors.length === 0) {
         try {
@@ -53,7 +53,3 @@ router.post('/add', (req, res) => {
     }
     res.status(responseObject.statusCode).json(responseObject);
 });
-router.get('/view', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const grats = yield GratitudeModel_1.GratitudeModel.find();
-    res.json(grats);
-}));

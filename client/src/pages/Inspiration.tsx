@@ -5,16 +5,14 @@ import { SubmitForm } from '../components/SubmitForm'
 import { useSetPageProps } from '../hooks/UseSetPageProps'
 
 export const Inspiration: () => JSX.Element = () => {
-  const thisPage: any = useSetPageProps()
-  thisPage.left = PAGE_TITLE_ARROWS.GRATITUDE
-  thisPage.right = PAGE_TITLE_ARROWS.ACHIEVEMENT
+  useSetPageProps()
 
   return (
     <>
-      <PageTitle thisPage={ thisPage } />
+      <PageTitle />
       <SubmitForm
-        label='I am grateful for'
-        placeholder='Speak your mind...'
+        label='Say a little something that someone needs to hear today.'
+        placeholder='Insert your motivating words of wisdom...'
         cols={ 30 }
         rows={ 8 }
       />

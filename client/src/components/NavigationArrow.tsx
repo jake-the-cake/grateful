@@ -1,15 +1,17 @@
 import React from 'react'
-import { NavigateFunction } from "react-router-dom"
+import { NavigateFunction, useNavigate } from "react-router-dom"
 import { appSettings } from "../data/appSettings"
 import { PAGE_TITLE_ARROWS } from "./PageTitle"
 
 type NavigationArrowProps = ( props: {
-  destination: PAGE_TITLE_ARROWS
+  destination?: PAGE_TITLE_ARROWS
   direction: string
-  navigate: NavigateFunction
+  // navigate: NavigateFunction
 }) => JSX.Element
 
-export const NavigationArrow: NavigationArrowProps = ({ destination, direction, navigate }) => {
+export const NavigationArrow: NavigationArrowProps = ({ destination, direction }) => {
+  const navigate = useNavigate()
+  if ( !destination ) return <></>
   const page = appSettings.pages[ destination ]
   let icon: string
   switch ( direction ) {

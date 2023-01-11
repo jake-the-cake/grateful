@@ -58,6 +58,7 @@ body {
 
 .form__label {
   margin: 0px auto -.5rem;
+  text-align: center;
 }
 
 .form__error {

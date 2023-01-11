@@ -15,7 +15,7 @@ export const loadPageSettings = ( obj?: any ) => {
     const page = pages[ pg ]
     if ( page.url === obj.baseDir ) {
       obj.theme = page.theme || obj.theme
-      obj.page =  { ...pages.defaults.page, page }
+      obj.page =  { ...pages.defaults.page, ...page }
     }
   })
   return obj

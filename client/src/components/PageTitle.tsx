@@ -1,9 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router'
+import { loadPageSettings } from '../hooks/UseSetPageProps'
 import { NavigationArrow } from './NavigationArrow'
 
 export interface PageTitleProps {
-  thisPage: {
+  thisPage?: {
     title: string
     theme: string
     page?: any
@@ -18,33 +19,21 @@ export const enum PAGE_TITLE_ARROWS {
   ACHIEVEMENT = 'achievement'
 }
 
-export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ thisPage }) => {
-  thisPage = {
-    ...thisPage,
-    ...thisPage.page
-  }
-  // Object.entries( thisPage ).filter( k => k[ 0 ] !== 'page' )
-  console.log( thisPage )
-
+export const PageTitle: ( props: PageTitleProps ) => JSX.Element = () => {
+  const { title, theme, arrows } = loadPageSettings().page
   return (
     <div className='page__title--container'>
-      {
-        thisPage.left !== undefined && <NavigationArrow
-          destination={ thisPage.left }
+      <NavigationArrow
+          destination={ arrows?.left ?? null }
           direction={ 'left' }
-          navigate={ useNavigate() }
         />
-      }
-      <span className={ `page__title--text ${ thisPage.theme }-text` }>
-        { thisPage.title || 'no title' }.
+      <span className={ `page__title--text ${ theme }-text` }>
+        { title || 'no title' }.
       </span>
-      {
-        thisPage.right !== undefined && <NavigationArrow 
-          destination={ thisPage.right }
+      <NavigationArrow 
+          destination={ arrows?.right ?? null }
           direction={ 'right' }
-          navigate={ useNavigate() }
         />
-      }
     </div>
   )
 }

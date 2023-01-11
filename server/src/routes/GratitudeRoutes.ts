@@ -26,7 +26,7 @@ router.delete( '/delete/all', async ( req, res ) => {
 router.post( '/add', ( req, res ) => {
   const responseObject: any = createResponseObject()
   runValidation( createValidationObject( responseObject, req.body ), {
-    required: [ 'note', 'user' ]
+    required: [ 'user' ]
   })
 
   if ( responseObject.errors.length === 0 ) {
@@ -42,11 +42,6 @@ router.post( '/add', ( req, res ) => {
     }
   }
   res.status( responseObject.statusCode ).json( responseObject )
-})
-
-router.get( '/view', async ( req, res ) => {
-  const grats = await GratitudeModel.find()
-  res.json( grats )
 })
 
 export { router as GratitudeRouter }

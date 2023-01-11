@@ -20,18 +20,18 @@ export const handleSignUp = ( event, setErrors, navigate ) => {
   if ( inputs.password.length < 1 ) errorObject.password = 'A password is required.'
   if ( inputs.password !== inputs.confirm ) errorObject.confirm = 'These passwords do not match.'
   
-  if ( Object.keys( errorObject ).length > 0 ) {
-    setErrors( errorObject )
+  if ( Object.keys( errorObject ).length > 0 ) { // if client errors exist
+    setErrors( errorObject ) // display errors
   }
-  else {
-    setErrors( null )
-    useFetch( 'POST', '/user/add', { body: inputs })
+  else { // if no client errors
+    setErrors( null ) // clear errors
+    useFetch( 'POST', '/user/add', { body: inputs }) // API request hook
     .then( d => d.json() )
     .then(( data: ResponseObjectProps ) => {
-      console.log( data )
-      if( !data.errors ) navigate( appSettings.pages.defaults.postAuthUrl )
-      else displayErrors( data, setErrors )
+      console.log( data ) // log api response
+      if( !data.errors ) navigate( appSettings.pages.defaults.postAuthUrl ) // API RESPONSE SUCCESS
+      else displayErrors( data, setErrors ) // display api errors
     })
-    .catch(( err ) => console.log( err.message ))
+    .catch(( err ) => console.log( err.message )) // catch misc errors
   }
 }
