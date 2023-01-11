@@ -3,12 +3,15 @@ import { UserModel } from '../models/UserModel'
 import { createResponseObject } from '../handlers/responseHandlers'
 import { createErrorLog } from '../handlers/errorLogHandlers'
 import JWT from 'jsonwebtoken'
+import { useHashData } from '../hooks/useBcrypt'
 
 const router = express.Router()
 
+useHashData({ data: 'data', more: 'more data' }).then(( x:any ) => console.log( x ))
+
 router.route( '/' )
   .get(( req, res ) => res.status( 200 ).send( 'Auth routes' ))
-  .all(( req, res ) => res.status( 403 ).json( createErrorLog( 'x' ))
+  .all(( req, res ) => res.status( 403 ).json( createErrorLog( 'x' )))
 
 router.post( '/login/init', async ( req, res ) => {
   const responseObject: any = createResponseObject()

@@ -18,11 +18,14 @@ const UserModel_1 = require("../models/UserModel");
 const responseHandlers_1 = require("../handlers/responseHandlers");
 const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const useBcrypt_1 = require("../hooks/useBcrypt");
 const router = express_1.default.Router();
 exports.AuthRouter = router;
+(0, useBcrypt_1.useHashData)({ data: 'data', more: 'more data' }).then((x) => console.log(x));
 router.route('/')
     .get((req, res) => res.status(200).send('Auth routes'))
-    .all((req, res) => res.status(403).json((0, errorLogHandlers_1.createErrorLog)('x')), router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    .all((req, res) => res.status(403).json((0, errorLogHandlers_1.createErrorLog)('x')));
+router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseObject = (0, responseHandlers_1.createResponseObject)();
     const user = yield UserModel_1.UserModel.find({ email: req.body.email });
     if (user.length > 0) {
@@ -40,4 +43,4 @@ router.route('/')
         responseObject.data = null;
     }
     res.status(responseObject.statusCode).json(responseObject);
-})));
+}));
