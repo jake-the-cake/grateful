@@ -6,6 +6,7 @@ export interface PageTitleProps {
   thisPage: {
     title: string
     theme: string
+    page?: any
     left?: PAGE_TITLE_ARROWS
     right?: PAGE_TITLE_ARROWS
   }
@@ -18,6 +19,13 @@ export const enum PAGE_TITLE_ARROWS {
 }
 
 export const PageTitle: ( props: PageTitleProps ) => JSX.Element = ({ thisPage }) => {
+  thisPage = {
+    ...thisPage,
+    ...thisPage.page
+  }
+  // Object.entries( thisPage ).filter( k => k[ 0 ] !== 'page' )
+  console.log( thisPage )
+
   return (
     <div className='page__title--container'>
       {

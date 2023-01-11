@@ -3,9 +3,8 @@ import { AppContext } from "../App"
 import { appSettings } from "../data/appSettings"
 
 export const returnBaseDir = () => {
-  const { routes } = appSettings 
   const baseDir = '/' + window.location.pathname.split( '/' )[ 1 ]
-  if ( !routes.main.includes( baseDir )) return '/'
+  if ( !appSettings.routes.main.includes( baseDir )) return '/'
   return baseDir
 }
 
@@ -25,24 +24,25 @@ export const loadPageSettings = ( obj?: any ) => {
 export const useSetPageProps = () => {
   // import context and app settings
   const ctx: any = useContext( AppContext )
-  const { pages } = appSettings
-
   // create function object
   const thisObj = {
     path: window.location.pathname,
     baseDir: returnBaseDir(),
-    theme: pages.defaults.page.theme,
+    theme: appSettings.pages.defaults.page.theme,
     page: null
   }
-
   // load then execute changes
   loadPageSettings( thisObj )
-  console.log( thisObj )
   useEffect(() => {
-    ctx.dispatch({ type: 'SET-THEME', theme: thisObj.theme })
-    ctx.dispatch({ type: 'SET-URL', url: thisObj.path })
+    ctx.dispatch({
+      type: 'SET-THEME',
+      theme: thisObj.theme
+    })
+    ctx.dispatch({
+      type: 'SET-URL',
+      url: thisObj.path
+    })
   }, [])
-
   // return page info or error
   return thisObj.page || { error: {
     type: 404,

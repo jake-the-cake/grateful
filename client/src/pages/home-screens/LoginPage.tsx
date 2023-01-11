@@ -38,17 +38,7 @@ export const LoginPage = (): JSX.Element => {
           const queryResult = data.filter( user => user.email === inputs.email )
           if ( queryResult.length > 0 ) {
             console.log( queryResult )
-            console.log( inputs.password )
-            bc.compare( inputs.password, queryResult[ 0 ].password, function( err, result ) {
-              if ( result ) {
-                ctx.dispatch({ type: 'LOGIN_SUCCESS', userId: queryResult[ 0 ]._id })
-                navigate( appSettings.pages.defaults.postAuthUrl )
-              }
-              else {
-                errorObject.password = 'Incorrect password.'
-                setErrors( errorObject )
-              }
-            })
+            console.log( 'do a login' )
           }
           else {
             errorObject.email = 'User not found.'
