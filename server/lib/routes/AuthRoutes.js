@@ -20,17 +20,17 @@ const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const router = express_1.default.Router();
 exports.AuthRouter = router;
-router.get('/', (req, res) => {
-    res.send('Auth Routes');
-});
-router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.route('/')
+    .get((req, res) => res.status(200).send('Auth routes'))
+    .all((req, res) => res.status(403).json((0, errorLogHandlers_1.createErrorLog)('x')), router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const responseObject = (0, responseHandlers_1.createResponseObject)();
     const user = yield UserModel_1.UserModel.find({ email: req.body.email });
     if (user.length > 0) {
-        const token = jsonwebtoken_1.default.sign(user[0].email, process.env.HUSH_HUSH);
+        const accessToken = jsonwebtoken_1.default.sign({ id: user[0]._id }, process.env.ACCESS_HUSH, { expiresIn: 10000 });
+        const refreshToken = jsonwebtoken_1.default.sign({ id: user[0]._id }, process.env.REFRESH_HUSH, { expiresIn: 60000 });
         responseObject.statusCode = 201;
         responseObject.success = true;
-        responseObject.data = Object.assign(Object.assign({}, user[0]._doc), { token });
+        responseObject.data = Object.assign(Object.assign({}, user[0]._doc), { accessToken });
         responseObject.errors = null;
         console.log(responseObject);
     }
@@ -40,4 +40,4 @@ router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, funct
         responseObject.data = null;
     }
     res.status(responseObject.statusCode).json(responseObject);
-}));
+})));

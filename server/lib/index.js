@@ -12,6 +12,7 @@ const GratitudeRoutes_1 = require("./routes/GratitudeRoutes");
 const IndexRoutes_1 = require("./routes/IndexRoutes");
 const runInits_1 = require("./init/runInits");
 const AuthRoutes_1 = require("./routes/AuthRoutes");
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 // init and configure app
 const app = (0, express_1.default)();
 dotenv_1.default.config();
@@ -19,7 +20,8 @@ const { port, serverName } = (0, runInits_1.runInits)();
 // middleware
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.urlencoded({ extended: false }));
+app.use((0, cookie_parser_1.default)());
 // router
 app.use('/', IndexRoutes_1.IndexRouter);
 app.use('/user', UserRoutes_1.UserRouter);

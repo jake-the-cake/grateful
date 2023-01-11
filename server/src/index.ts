@@ -7,6 +7,7 @@ import { GratitudeRouter } from './routes/GratitudeRoutes'
 import { IndexRouter } from './routes/IndexRoutes'
 import { runInits } from './init/runInits'
 import { AuthRouter } from './routes/AuthRoutes'
+import cookieParser from 'cookie-parser'
 
 // init and configure app
 const app = express()
@@ -16,7 +17,8 @@ const { port, serverName } = runInits()
 // middleware
 app.use( cors() )
 app.use( express.json() )
-app.use( express.urlencoded({ extended: true }))
+app.use( express.urlencoded({ extended: false }))
+app.use( cookieParser() )
 
 // router
 app.use( '/', IndexRouter )
