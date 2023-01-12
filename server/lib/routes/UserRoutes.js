@@ -18,6 +18,7 @@ const UserModel_1 = require("../models/UserModel");
 const responseHandlers_1 = require("../handlers/responseHandlers");
 const validationHandlers_1 = require("../handlers/validationHandlers");
 const runValidation_1 = require("../validators/runValidation");
+const useEcryption_1 = require("../hooks/useEcryption");
 const router = express_1.default.Router();
 exports.UserRouter = router;
 router.get('/', (req, res) => {
@@ -41,8 +42,14 @@ router.post('/add', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         unique: { model: UserModel_1.UserModel, fields: ['email'] }
     });
     if (responseObject.errors.length === 0) {
-        const { email, password } = req.body;
-        responseObject.data = new UserModel_1.UserModel({ email, password });
+        let dataObject = {};
+        const dataResponse = yield (0, useEcryption_1.useHashData)(req.body);
+        if (Object.keys(dataResponse).length) {
+            dataResponse.forEach((data) => {
+                dataObject = Object.assign(Object.assign({}, dataObject), data);
+            });
+        }
+        responseObject.data = new UserModel_1.UserModel(dataObject);
         (0, responseHandlers_1.setSuccessResponse)(responseObject, 201);
         responseObject.data.save();
     }

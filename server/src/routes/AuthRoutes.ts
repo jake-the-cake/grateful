@@ -9,7 +9,7 @@ import { useSignedToken } from '../hooks/useToken'
 const router = express.Router()
 
 router.get( '/test', async ( req, res ) => {
-  const hashedData = await useHashData({ data: 'data', more: 'more data' })
+  const hashedData = await useHashData( req.body )
   res.json( hashedData )
 })
 

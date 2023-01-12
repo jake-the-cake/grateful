@@ -3,6 +3,7 @@ import { UserModel } from '../models/UserModel'
 import { createResponseObject, setSuccessResponse } from '../handlers/responseHandlers'
 import { createValidationObject } from '../handlers/validationHandlers'
 import { runValidation } from '../validators/runValidation'
+import { useHashData } from '../hooks/useEcryption'
 
 const router = express.Router()
 
@@ -32,8 +33,17 @@ router.post( '/add', async ( req, res ) => {
 	})
 
 	if ( responseObject.errors.length === 0 ) {
-		const { email, password } = req.body
-		responseObject.data = new UserModel({ email, password })
+		let dataObject = {}
+		const dataResponse: any = await useHashData( req.body )
+		if ( Object.keys( dataResponse ).length ) {
+			dataResponse.forEach(( data: any ) => {
+				dataObject = {
+					...dataObject,
+					...data
+				}
+			})
+		}
+		responseObject.data = new UserModel( dataObject )
 		setSuccessResponse( responseObject, 201 )
 		responseObject.data.save()
 	}

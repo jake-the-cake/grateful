@@ -22,7 +22,7 @@ const useToken_1 = require("../hooks/useToken");
 const router = express_1.default.Router();
 exports.AuthRouter = router;
 router.get('/test', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const hashedData = yield (0, useEcryption_1.useHashData)({ data: 'data', more: 'more data' });
+    const hashedData = yield (0, useEcryption_1.useHashData)(req.body);
     res.json(hashedData);
 }));
 router.route('/')
