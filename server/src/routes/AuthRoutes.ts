@@ -3,7 +3,7 @@ import { UserModel } from '../models/UserModel'
 import { createResponseObject } from '../handlers/responseHandlers'
 import { createErrorLog } from '../handlers/errorLogHandlers'
 import JWT from 'jsonwebtoken'
-import { useHashData } from '../hooks/useBcrypt'
+import { useHashData } from '../hooks/useEcryption'
 
 const router = express.Router()
 
