@@ -23,6 +23,16 @@ export const createErrorLog: ( errorCode: string ) => ErrorLogProps = ( errorCod
         type: ErrorTypes.Duplicate,
         message: 'This -email- address is taken.'
       }
+    case 'badobj':
+      return {
+        type: ErrorTypes.Syntax,
+        message: 'Invalid object submitted.'
+      }
+    case 'badpw':
+      return {
+        type: ErrorTypes.Authentication,
+        message: 'Incorrect password.'
+      }
     default:
       return {
         type: ErrorTypes.Default,

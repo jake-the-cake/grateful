@@ -17,12 +17,12 @@ const express_1 = __importDefault(require("express"));
 const UserModel_1 = require("../models/UserModel");
 const responseHandlers_1 = require("../handlers/responseHandlers");
 const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const useEcryption_1 = require("../hooks/useEcryption");
+const useToken_1 = require("../hooks/useToken");
 const router = express_1.default.Router();
 exports.AuthRouter = router;
 router.get('/test', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const hashedData = (0, useEcryption_1.useHashData)({ data: 'data', more: 'more data' });
+    const hashedData = yield (0, useEcryption_1.useHashData)({ data: 'data', more: 'more data' });
     res.json(hashedData);
 }));
 router.route('/')
@@ -32,13 +32,20 @@ router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, funct
     const responseObject = (0, responseHandlers_1.createResponseObject)();
     const user = yield UserModel_1.UserModel.find({ email: req.body.email });
     if (user.length > 0) {
-        const accessToken = jsonwebtoken_1.default.sign({ id: user[0]._id }, process.env.ACCESS_HUSH, { expiresIn: 10000 });
-        const refreshToken = jsonwebtoken_1.default.sign({ id: user[0]._id }, process.env.REFRESH_HUSH, { expiresIn: 60000 });
-        responseObject.statusCode = 201;
-        responseObject.success = true;
-        responseObject.data = Object.assign(Object.assign({}, user[0]._doc), { accessToken });
-        responseObject.errors = null;
-        console.log(responseObject);
+        const u = user[0];
+        if (req.body.password === u.password) {
+            const accessToken = (0, useToken_1.useSignedToken)({ id: u._id }, 'access');
+            const refreshToken = (0, useToken_1.useSignedToken)({ id: u._id }, 'refresh');
+            responseObject.statusCode = 201;
+            responseObject.success = true;
+            responseObject.data = Object.assign(Object.assign({}, user[0]._doc), { accessToken });
+            responseObject.errors = null;
+        }
+        else {
+            responseObject.statusCode = 401;
+            responseObject.errors.push((0, errorLogHandlers_1.createErrorLog)('badpw'));
+            responseObject.data = null;
+        }
     }
     else {
         responseObject.statusCode = 404;

@@ -2,14 +2,14 @@ import express from 'express'
 import { UserModel } from '../models/UserModel'
 import { createResponseObject } from '../handlers/responseHandlers'
 import { createErrorLog } from '../handlers/errorLogHandlers'
-import JWT from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { useHashData } from '../hooks/useEcryption'
+import { useSignedToken } from '../hooks/useToken'
 
 const router = express.Router()
 
 router.get( '/test', async ( req, res ) => {
-
-  const hashedData = useHashData({ data: 'data', more: 'more data' })
+  const hashedData = await useHashData({ data: 'data', more: 'more data' })
   res.json( hashedData )
 })
 
@@ -22,13 +22,20 @@ router.post( '/login/init', async ( req, res ) => {
   
   const user: any[] = await UserModel.find({ email: req.body.email })
   if ( user.length > 0 ) {
-    const accessToken = JWT.sign( { id: user[ 0 ]._id }, process.env.ACCESS_HUSH as string, { expiresIn: 10000 } )
-    const refreshToken = JWT.sign( { id: user[ 0 ]._id }, process.env.REFRESH_HUSH as string, { expiresIn: 60000 } )
-    responseObject.statusCode = 201
-    responseObject.success = true
-    responseObject.data = { ...user[ 0 ]._doc, accessToken }
-    responseObject.errors = null
-    console.log( responseObject )
+    const u = user[ 0 ]
+    if ( req.body.password === u.password ) {
+      const accessToken = useSignedToken({ id: u._id }, 'access' )
+      const refreshToken = useSignedToken({ id: u._id }, 'refresh' )
+      responseObject.statusCode = 201
+      responseObject.success = true
+      responseObject.data = { ...user[ 0 ]._doc, accessToken }
+      responseObject.errors = null
+    }
+    else {
+      responseObject.statusCode = 401
+      responseObject.errors.push( createErrorLog( 'badpw' ))
+      responseObject.data = null
+    }
   }
   else {
     responseObject.statusCode = 404

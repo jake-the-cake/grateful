@@ -23,6 +23,16 @@ const createErrorLog = (errorCode) => {
                 type: "TakenValue" /* ErrorTypes.Duplicate */,
                 message: 'This -email- address is taken.'
             };
+        case 'badobj':
+            return {
+                type: "Syntax" /* ErrorTypes.Syntax */,
+                message: 'Invalid object submitted.'
+            };
+        case 'badpw':
+            return {
+                type: "Authentication" /* ErrorTypes.Authentication */,
+                message: 'Incorrect password.'
+            };
         default:
             return {
                 type: "DefaultErrorMessage" /* ErrorTypes.Default */,

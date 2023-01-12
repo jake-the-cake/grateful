@@ -1,29 +1,19 @@
 import bcrypt from 'bcryptjs'
+import { createErrorLog } from '../handlers/errorLogHandlers'
 
 export const useHashData = ( data: any ) => {
-
-  const hashedObject: any = {}
-
-  return hashedObject
-  //  new Promise( function ( resolve, reject ) {
-  //   const hashedObject: any = {}
-  //   if ( typeof data !== 'object' ) {
-  //     reject( 'Must send an object.' )
-  //   }
-  //   else {
-  //     bcrypt.genSalt(10, (err, salt) => {
-  //       if(err) return err;
-  //       Object.entries( data ).forEach( item => {
-  //         console.log( item )
-  //         bcrypt.hash( item[ 1 ] as string, salt, (err, hash) => {
-  //           console.log( hash )
-  //           if(err) return err;
-  //           hashedObject[ item[ 0 ] as string ] = hash;
-  //           resolve( hashedObject )
-  //         })
-  //       })
-  //       // hashedObject[ item[ 0 ]] = item[ 1 ]
-  //     })
-  //   }
-  // })
+  if ( typeof data !== 'object' ) return createErrorLog( 'badobj' )
+  const promisedData: any[] =  []
+  Object.entries( data ).forEach(([ k, v ]) => {
+    promisedData.push(
+      new Promise( function ( resolve, reject ) {
+        bcrypt.genSalt( 10, function ( err, salt ) {
+          bcrypt.hash( v as string, salt, function ( err, hash ) {
+            resolve({[ k ]: hash })
+          })
+        })
+      })
+    )
+  })
+  return Promise.all( promisedData )
 }

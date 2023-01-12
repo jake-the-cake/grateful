@@ -1,29 +1,24 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useHashData = void 0;
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
 const useHashData = (data) => {
-    const hashedObject = {};
-    return hashedObject;
-    //  new Promise( function ( resolve, reject ) {
-    //   const hashedObject: any = {}
-    //   if ( typeof data !== 'object' ) {
-    //     reject( 'Must send an object.' )
-    //   }
-    //   else {
-    //     bcrypt.genSalt(10, (err, salt) => {
-    //       if(err) return err;
-    //       Object.entries( data ).forEach( item => {
-    //         console.log( item )
-    //         bcrypt.hash( item[ 1 ] as string, salt, (err, hash) => {
-    //           console.log( hash )
-    //           if(err) return err;
-    //           hashedObject[ item[ 0 ] as string ] = hash;
-    //           resolve( hashedObject )
-    //         })
-    //       })
-    //       // hashedObject[ item[ 0 ]] = item[ 1 ]
-    //     })
-    //   }
-    // })
+    if (typeof data !== 'object')
+        return (0, errorLogHandlers_1.createErrorLog)('badobj');
+    const promisedData = [];
+    Object.entries(data).forEach(([k, v]) => {
+        promisedData.push(new Promise(function (resolve, reject) {
+            bcryptjs_1.default.genSalt(10, function (err, salt) {
+                bcryptjs_1.default.hash(v, salt, function (err, hash) {
+                    resolve({ [k]: hash });
+                });
+            });
+        }));
+    });
+    return Promise.all(promisedData);
 };
 exports.useHashData = useHashData;
