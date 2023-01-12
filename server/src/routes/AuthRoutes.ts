@@ -2,7 +2,6 @@ import express from 'express'
 import { UserModel } from '../models/UserModel'
 import { createResponseObject } from '../handlers/responseHandlers'
 import { createErrorLog } from '../handlers/errorLogHandlers'
-import jwt from 'jsonwebtoken'
 import { useHashData } from '../hooks/useEcryption'
 import { useSignedToken } from '../hooks/useToken'
 
