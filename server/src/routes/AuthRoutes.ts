@@ -7,7 +7,11 @@ import { useHashData } from '../hooks/useEcryption'
 
 const router = express.Router()
 
-useHashData({ data: 'data', more: 'more data' }).then(( x:any ) => console.log( x ))
+router.get( '/test', async ( req, res ) => {
+
+  const hashedData = useHashData({ data: 'data', more: 'more data' })
+  res.json( hashedData )
+})
 
 router.route( '/' )
   .get(( req, res ) => res.status( 200 ).send( 'Auth routes' ))
