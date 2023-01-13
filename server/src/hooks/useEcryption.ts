@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import c from 'crypto'
+// import c from 'crypto'
 import { createErrorLog } from '../handlers/errorLogHandlers'
 
 export const useHashData = ( data: any ) => {
@@ -24,4 +24,10 @@ export const useCompareHash = ( submittedPassword: string, storedPassword: strin
     if ( err ) return err.message
     return res
   })
+}
+
+type StringInStringOut = ( text: string ) => string
+
+export const encodeString: StringInStringOut = function ( text ) {
+  return text + ' <-- without encoding'
 }

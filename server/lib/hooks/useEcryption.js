@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useCompareHash = exports.useHashData = void 0;
+exports.encodeString = exports.useCompareHash = exports.useHashData = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+// import c from 'crypto'
 const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
 const useHashData = (data) => {
     if (typeof data !== 'object')
@@ -30,3 +31,7 @@ const useCompareHash = (submittedPassword, storedPassword) => {
     });
 };
 exports.useCompareHash = useCompareHash;
+const encodeString = function (text) {
+    return text + ' <-- without encoding';
+};
+exports.encodeString = encodeString;
