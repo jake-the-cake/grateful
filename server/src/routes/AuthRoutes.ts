@@ -2,7 +2,7 @@ import express from 'express'
 import { UserModel } from '../models/UserModel'
 import { createResponseObject } from '../handlers/responseHandlers'
 import { createErrorLog } from '../handlers/errorLogHandlers'
-import { hashData, useHashData } from '../hooks/useEcryption'
+import { useHashData } from '../hooks/useEcryption'
 import { useSignedToken } from '../hooks/useToken'
 
 const router = express.Router()
@@ -12,7 +12,7 @@ router.get( '/test', async ( req, res ) => {
   res.json( hashedData )
 })
 
-console.log( hashData( 'idk' ))
+// console.log( hashData( 'idk' ))
 
 router.route( '/' )
   .get(( req, res ) => res.status( 200 ).send( 'Auth routes' ))
