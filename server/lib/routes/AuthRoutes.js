@@ -25,6 +25,7 @@ router.get('/test', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const hashedData = yield (0, useEcryption_1.useHashData)(req.body);
     res.json(hashedData);
 }));
+console.log((0, useEcryption_1.hashData)('idk'));
 router.route('/')
     .get((req, res) => res.status(200).send('Auth routes'))
     .all((req, res) => res.status(403).json((0, errorLogHandlers_1.createErrorLog)('x')));

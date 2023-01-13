@@ -2,7 +2,7 @@ import express from 'express'
 import { UserModel } from '../models/UserModel'
 import { createResponseObject } from '../handlers/responseHandlers'
 import { createErrorLog } from '../handlers/errorLogHandlers'
-import { useHashData } from '../hooks/useEcryption'
+import { hashData, useHashData } from '../hooks/useEcryption'
 import { useSignedToken } from '../hooks/useToken'
 
 const router = express.Router()
@@ -11,6 +11,8 @@ router.get( '/test', async ( req, res ) => {
   const hashedData = await useHashData( req.body )
   res.json( hashedData )
 })
+
+console.log( hashData( 'idk' ))
 
 router.route( '/' )
   .get(( req, res ) => res.status( 200 ).send( 'Auth routes' ))
@@ -36,7 +38,7 @@ router.post( '/login/init', async ( req, res ) => {
       responseObject.data = null
     }
   }
-  else {
+  else { 
     responseObject.statusCode = 404
     responseObject.error = createErrorLog( '404user' )
     responseObject.data = null
