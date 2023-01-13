@@ -25,7 +25,6 @@ router.get('/test', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const hashedData = yield (0, useEcryption_1.useHashData)(req.body);
     res.json(hashedData);
 }));
-console.log((0, useEcryption_1.encodeString)('idk'));
 router.route('/')
     .get((req, res) => res.status(200).send('Auth routes'))
     .all((req, res) => res.status(403).json((0, errorLogHandlers_1.createErrorLog)('x')));
@@ -38,10 +37,7 @@ router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, funct
             const accessToken = (0, useToken_1.useSignedToken)({ id: u._id }, 'access');
             const refreshToken = (0, useToken_1.useSignedToken)({ id: u._id }, 'refresh');
             (0, responseHandlers_1.setSuccessResponse)(responseObject, 201);
-            // responseObject.statusCode = 201
-            // responseObject.success = true
             responseObject.data = Object.assign(Object.assign({}, user[0]._doc), { accessToken });
-            // responseObject.errors = null
         }
         else {
             responseObject.statusCode = 401;
@@ -56,3 +52,34 @@ router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
     res.status(responseObject.statusCode).json(responseObject);
 }));
+router.post('/login/test', function (req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const responseObject = (0, responseHandlers_1.createResponseObject)();
+        const allUsers = yield UserModel_1.UserModel.find();
+        const foundUser = yield allUsers.filter(user => {
+            console.log(user);
+            return [];
+        });
+        console.log(foundUser);
+        // if ( user.length > 0 ) {
+        //   const u = user[ 0 ]
+        //   if ( req.body.password === u.password ) {
+        //     const accessToken = useSignedToken({ id: u._id }, 'access' )
+        //     const refreshToken = useSignedToken({ id: u._id }, 'refresh' )
+        //     setSuccessResponse( responseObject, 201 )
+        //     responseObject.data = { ...user[ 0 ]._doc, accessToken }
+        //   }
+        //   else {
+        //     responseObject.statusCode = 401
+        //     responseObject.errors.push( createErrorLog( 'badpw' ))
+        //     responseObject.data = null
+        //   }
+        // }
+        // else { 
+        //   responseObject.statusCode = 404
+        //   responseObject.error = createErrorLog( '404user' )
+        //   responseObject.data = null
+        // }
+        res.status(responseObject.statusCode).json([allUsers, foundUser]);
+    });
+});

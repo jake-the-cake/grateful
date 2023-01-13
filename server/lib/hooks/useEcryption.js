@@ -3,10 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.encodeString = exports.useCompareHash = exports.useHashData = void 0;
+exports.cryptString = exports.useCompareHash = exports.useHashData = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-// import c from 'crypto'
+const cryptr_1 = __importDefault(require("cryptr"));
 const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const useHashData = (data) => {
     if (typeof data !== 'object')
         return (0, errorLogHandlers_1.createErrorLog)('badobj');
@@ -31,7 +33,15 @@ const useCompareHash = (submittedPassword, storedPassword) => {
     });
 };
 exports.useCompareHash = useCompareHash;
-const encodeString = function (text) {
-    return text + ' <-- without encoding';
+const cryptString = (text, type) => {
+    const newText = new cryptr_1.default(process.env.CRYPT_HUSH);
+    switch (type) {
+        case 'en':
+            return newText.encrypt(text);
+        case 'de':
+            return newText.decrypt(text);
+        default:
+            return text;
+    }
 };
-exports.encodeString = encodeString;
+exports.cryptString = cryptString;
