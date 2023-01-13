@@ -1,6 +1,6 @@
 import express from 'express'
 import { UserModel } from '../models/UserModel'
-import { createResponseObject } from '../handlers/responseHandlers'
+import { createResponseObject, setSuccessResponse } from '../handlers/responseHandlers'
 import { createErrorLog } from '../handlers/errorLogHandlers'
 import { encodeString, useHashData } from '../hooks/useEcryption'
 import { useSignedToken } from '../hooks/useToken'
@@ -27,10 +27,11 @@ router.post( '/login/init', async ( req, res ) => {
     if ( req.body.password === u.password ) {
       const accessToken = useSignedToken({ id: u._id }, 'access' )
       const refreshToken = useSignedToken({ id: u._id }, 'refresh' )
-      responseObject.statusCode = 201
-      responseObject.success = true
+      setSuccessResponse( responseObject, 201 )
+      // responseObject.statusCode = 201
+      // responseObject.success = true
       responseObject.data = { ...user[ 0 ]._doc, accessToken }
-      responseObject.errors = null
+      // responseObject.errors = null
     }
     else {
       responseObject.statusCode = 401

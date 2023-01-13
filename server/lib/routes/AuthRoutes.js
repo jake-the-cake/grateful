@@ -37,10 +37,11 @@ router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, funct
         if (req.body.password === u.password) {
             const accessToken = (0, useToken_1.useSignedToken)({ id: u._id }, 'access');
             const refreshToken = (0, useToken_1.useSignedToken)({ id: u._id }, 'refresh');
-            responseObject.statusCode = 201;
-            responseObject.success = true;
+            (0, responseHandlers_1.setSuccessResponse)(responseObject, 201);
+            // responseObject.statusCode = 201
+            // responseObject.success = true
             responseObject.data = Object.assign(Object.assign({}, user[0]._doc), { accessToken });
-            responseObject.errors = null;
+            // responseObject.errors = null
         }
         else {
             responseObject.statusCode = 401;

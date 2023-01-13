@@ -42,8 +42,8 @@ router.post('/add', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         unique: { model: UserModel_1.UserModel, fields: ['email'] }
     });
     if (responseObject.errors.length === 0) {
-        let dataObject = {};
-        const dataResponse = yield (0, useEcryption_1.useHashData)(req.body);
+        let dataObject = { email: req.body.email };
+        const dataResponse = yield (0, useEcryption_1.useHashData)({ password: req.body.password });
         if (Object.keys(dataResponse).length) {
             dataResponse.forEach((data) => {
                 dataObject = Object.assign(Object.assign({}, dataObject), data);

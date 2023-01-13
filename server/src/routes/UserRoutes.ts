@@ -33,8 +33,8 @@ router.post( '/add', async ( req, res ) => {
 	})
 
 	if ( responseObject.errors.length === 0 ) {
-		let dataObject = {}
-		const dataResponse: any = await useHashData( req.body )
+		let dataObject = { email: req.body.email }
+		const dataResponse: any = await useHashData({ password: req.body.password })
 		if ( Object.keys( dataResponse ).length ) {
 			dataResponse.forEach(( data: any ) => {
 				dataObject = {
