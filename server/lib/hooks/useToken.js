@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.useSignedToken = void 0;
 const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-// import dotenv from 'dotenv'
-// dotenv.config()
 const useSignedToken = (data, type) => {
     let token;
     switch (type) {

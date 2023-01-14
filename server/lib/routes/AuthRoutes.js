@@ -33,7 +33,7 @@ router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, funct
     const user = yield UserModel_1.UserModel.find({ email: req.body.email });
     if (user.length > 0) {
         const u = user[0];
-        if (req.body.password === u.password) {
+        if ((yield (0, useEcryption_1.useCompareHash)(req.body.password, u.password)) === true) {
             const accessToken = (0, useToken_1.useSignedToken)({ id: u._id }, 'access');
             const refreshToken = (0, useToken_1.useSignedToken)({ id: u._id }, 'refresh');
             (0, responseHandlers_1.setSuccessResponse)(responseObject, 201);

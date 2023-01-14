@@ -1,8 +1,5 @@
 import { createErrorLog } from "../handlers/errorLogHandlers"
 import jwt from "jsonwebtoken"
-// import dotenv from 'dotenv'
-
-// dotenv.config()
 
 export const useSignedToken = ( data: any, type: string ) => {
 	let token: any
