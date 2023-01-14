@@ -3,9 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cryptString = exports.useCompareHash = exports.useHashData = void 0;
+exports.useCompareHash = exports.useHashData = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const cryptr_1 = __importDefault(require("cryptr"));
 const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -33,15 +32,3 @@ const useCompareHash = (submittedPassword, storedPassword) => {
     });
 };
 exports.useCompareHash = useCompareHash;
-const cryptString = (text, type) => {
-    const newText = new cryptr_1.default(process.env.CRYPT_HUSH);
-    switch (type) {
-        case 'en':
-            return newText.encrypt(text);
-        case 'de':
-            return newText.decrypt(text);
-        default:
-            return text;
-    }
-};
-exports.cryptString = cryptString;

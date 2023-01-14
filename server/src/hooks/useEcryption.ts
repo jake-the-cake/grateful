@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs'
-import C from 'cryptr'
 import { createErrorLog } from '../handlers/errorLogHandlers'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -26,28 +25,4 @@ export const useCompareHash = ( submittedPassword: string, storedPassword: strin
     if ( err ) return err.message
     return res
   })
-}
-
-// type StringInStringOut = ( text: string ) => string
-
-// export const encodeString: StringInStringOut = function ( text ) {
-//   return new C( process.env.CRYPT_HUSH as string ).encrypt( text )
-//   // return text + ' <-- without encoding'
-// }
-
-type EncryptStringProps = (
-  text: string,
-  type: string
-) => string
-
-export const cryptString: EncryptStringProps = ( text, type ) => {
-  const newText = new C( process.env.CRYPT_HUSH as string )
-  switch ( type ) {
-    case 'en':
-      return newText.encrypt( text )
-    case 'de':
-      return newText.decrypt( text )
-    default:
-      return text
-  }
 }

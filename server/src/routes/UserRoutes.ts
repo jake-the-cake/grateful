@@ -3,7 +3,7 @@ import { UserModel } from '../models/UserModel'
 import { createResponseObject, setSuccessResponse } from '../handlers/responseHandlers'
 import { createValidationObject } from '../handlers/validationHandlers'
 import { runValidation } from '../validators/runValidation'
-import { cryptString, useHashData } from '../hooks/useEcryption'
+import { useHashData } from '../hooks/useEcryption'
 
 const router = express.Router()
 
@@ -33,7 +33,7 @@ router.post( '/add', async ( req, res ) => {
 	})
 
 	if ( responseObject.errors.length === 0 ) {
-		let dataObject = { email: cryptString( req.body.email, 'en' )}
+		let dataObject = { email: req.body.email }
 		const dataResponse: any = await useHashData({ password: req.body.password })
 		if ( Object.keys( dataResponse ).length ) {
 			dataResponse.forEach(( data: any ) => {

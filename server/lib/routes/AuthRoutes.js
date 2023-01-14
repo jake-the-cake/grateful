@@ -52,34 +52,3 @@ router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
     res.status(responseObject.statusCode).json(responseObject);
 }));
-router.post('/login/test', function (req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const responseObject = (0, responseHandlers_1.createResponseObject)();
-        const allUsers = yield UserModel_1.UserModel.find();
-        const foundUser = yield allUsers.filter(user => {
-            console.log(user);
-            return [];
-        });
-        console.log(foundUser);
-        // if ( user.length > 0 ) {
-        //   const u = user[ 0 ]
-        //   if ( req.body.password === u.password ) {
-        //     const accessToken = useSignedToken({ id: u._id }, 'access' )
-        //     const refreshToken = useSignedToken({ id: u._id }, 'refresh' )
-        //     setSuccessResponse( responseObject, 201 )
-        //     responseObject.data = { ...user[ 0 ]._doc, accessToken }
-        //   }
-        //   else {
-        //     responseObject.statusCode = 401
-        //     responseObject.errors.push( createErrorLog( 'badpw' ))
-        //     responseObject.data = null
-        //   }
-        // }
-        // else { 
-        //   responseObject.statusCode = 404
-        //   responseObject.error = createErrorLog( '404user' )
-        //   responseObject.data = null
-        // }
-        res.status(responseObject.statusCode).json([allUsers, foundUser]);
-    });
-});
