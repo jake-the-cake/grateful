@@ -40,15 +40,13 @@ router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, funct
             responseObject.data = Object.assign(Object.assign({}, user[0]._doc), { accessToken });
         }
         else {
-            responseObject.statusCode = 401;
+            (0, responseHandlers_1.setErrorResponse)(responseObject, 401);
             responseObject.errors.push((0, errorLogHandlers_1.createErrorLog)('badpw'));
-            responseObject.data = null;
         }
     }
     else {
-        responseObject.statusCode = 404;
+        (0, responseHandlers_1.setErrorResponse)(responseObject, 404);
         responseObject.error = (0, errorLogHandlers_1.createErrorLog)('404user');
-        responseObject.data = null;
     }
     res.status(responseObject.statusCode).json(responseObject);
 }));

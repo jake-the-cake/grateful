@@ -10,8 +10,15 @@ export const createResponseObject = () => {
 }
 
 export const setSuccessResponse: ( object: ResponseObjectProps, code: number ) => ResponseObjectProps = ( object, code ) => {
-    object.statusCode = code
-    object.success = true
-    object.errors = null
-    return object
+  object.statusCode = code
+  object.success = true
+  object.errors = null
+  return object
+}
+
+export const setErrorResponse: ( object: ResponseObjectProps, code: number ) => ResponseObjectProps = ( object, code ) => {
+  object.data = null
+  object.success = false
+  object.statusCode = code
+  return object
 }

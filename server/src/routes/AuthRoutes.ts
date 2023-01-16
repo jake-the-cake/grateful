@@ -1,6 +1,6 @@
 import express from 'express'
 import { UserModel } from '../models/UserModel'
-import { createResponseObject, setSuccessResponse } from '../handlers/responseHandlers'
+import { createResponseObject, setErrorResponse, setSuccessResponse } from '../handlers/responseHandlers'
 import { createErrorLog } from '../handlers/errorLogHandlers'
 import { useCompareHash, useHashData } from '../hooks/useEcryption'
 import { useSignedToken } from '../hooks/useToken'
@@ -30,15 +30,13 @@ router.post( '/login/init', async ( req, res ) => {
       responseObject.data = { ...user[ 0 ]._doc, accessToken }
     }
     else {
-      responseObject.statusCode = 401
+    setErrorResponse( responseObject, 401 )
       responseObject.errors.push( createErrorLog( 'badpw' ))
-      responseObject.data = null
     }
   }
   else { 
-    responseObject.statusCode = 404
+    setErrorResponse( responseObject, 404 )
     responseObject.error = createErrorLog( '404user' )
-    responseObject.data = null
   }
   res.status( responseObject.statusCode ).json( responseObject )
 })
