@@ -3,8 +3,10 @@ import { useValidation } from "../hooks/UseValidation"
 import { ResponseObjectProps } from "../pages/home-screens/SignUpPage"
 import { displayErrors } from "./displayErrors"
 import { appSettings } from "../data/appSettings"
+import { MouseEvent } from "react"
 
-export const handleSignUp = ( event, setErrors, navigate ) => {
+export const handleSignUp = ( event: MouseEvent<HTMLButtonElement>, setErrors, navigate, dispatch ) => {
+  event.preventDefault()
 	//object with input values
   const inputs = {
     email: ( document.getElementById( 'email' ) as HTMLInputElement ).value,
@@ -29,7 +31,10 @@ export const handleSignUp = ( event, setErrors, navigate ) => {
     .then( d => d.json() )
     .then(( data: ResponseObjectProps ) => {
       console.log( data ) // log api response
-      if( !data.errors ) navigate( appSettings.pages.defaults.postAuthUrl ) // API RESPONSE SUCCESS
+      if( !data.errors ) {
+        dispatch({ type: 'LOGIN_SUCCESS', userId: data.data._id })
+        navigate( appSettings.pages.defaults.postAuthUrl ) // API RESPONSE SUCCESS
+      }
       else displayErrors( data, setErrors ) // display api errors
     })
     .catch(( err ) => console.log( err.message )) // catch misc errors

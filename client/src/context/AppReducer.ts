@@ -39,6 +39,10 @@ export const AppReducer = ( state: ReducerProps, action: any ) => {
         id: action.userId
       }
       return state
+    case 'LOGOUT_SUCCESS':
+      console.info( `User '${ action.userId }' has been logged in.` );
+      state.user = null
+      return state
     case 'SET-URL':
       console.info( `URL changed to '${ action.url }'` )
       state.url = action.url
