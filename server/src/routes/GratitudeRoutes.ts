@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request } from 'express'
 import { createValidationObject } from '../handlers/validationHandlers'
 import { runValidation } from '../validators/runValidation'
 import { createResponseObject, setSuccessResponse } from '../handlers/responseHandlers'
@@ -6,6 +6,22 @@ import { GratitudeModel } from '../models/GratitudeModel'
 import { createErrorLog } from '../handlers/errorLogHandlers'
 
 const router = express.Router()
+
+const models: any = {
+  gratitude: GratitudeModel
+}
+
+const getDataByUser: any = async ( req: any, res: any ) => {
+  const routePath = req.baseUrl.replace( '/', '' )
+  const userId = req.body.id
+  const data = await models[ routePath ].find({ user: userId })
+  console.log( data )
+  res.send( 'check terminal' )
+}
+
+router.route( '/find/byuser' )
+  .get( getDataByUser )
+
 
 router.get( '/', ( req, res ) => {
 	res.send( 'Gratitude Routes' )
@@ -43,5 +59,8 @@ router.post( '/add', ( req, res ) => {
   }
   res.status( responseObject.statusCode ).json( responseObject )
 })
+
+// admin only routes
+router.route( '/find/all' )
 
 export { router as GratitudeRouter }

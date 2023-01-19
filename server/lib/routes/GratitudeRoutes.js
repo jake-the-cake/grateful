@@ -21,6 +21,18 @@ const GratitudeModel_1 = require("../models/GratitudeModel");
 const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
 const router = express_1.default.Router();
 exports.GratitudeRouter = router;
+const models = {
+    gratitude: GratitudeModel_1.GratitudeModel
+};
+const getDataByUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const routePath = req.baseUrl.replace('/', '');
+    const userId = req.body.id;
+    const data = yield models[routePath].find({ user: userId });
+    console.log(data);
+    res.send('check terminal');
+});
+router.route('/find/byuser')
+    .get(getDataByUser);
 router.get('/', (req, res) => {
     res.send('Gratitude Routes');
 });
@@ -53,3 +65,5 @@ router.post('/add', (req, res) => {
     }
     res.status(responseObject.statusCode).json(responseObject);
 });
+// admin only routes
+router.route('/find/all');
