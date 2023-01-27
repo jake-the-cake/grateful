@@ -15,8 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const UserModel_1 = require("../models/UserModel");
-// import { createResponseObject, setSuccessResponse } from '../handlers/responseHandlers'
-const validationHandlers_1 = require("../handlers/validationHandlers");
 const runValidation_1 = require("../validators/runValidation");
 const useEcryption_1 = require("../hooks/useEcryption");
 const quiggle_1 = require("quiggle");
@@ -36,14 +34,15 @@ router.delete('/delete/all', (req, res) => __awaiter(void 0, void 0, void 0, fun
     res.status(201).json({ "all users": "deleted." });
 }));
 router.post('/add', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const responseObject: any = createResponseObject()
     // validation engine
-    yield (0, runValidation_1.runValidation)((0, validationHandlers_1.createValidationObject)(req.responseObject, req.body), {
+    yield (0, runValidation_1.runValidation)({ response: req.responseObject, request: req.body }, {
         required: ['email', 'password'],
         unique: { model: UserModel_1.UserModel, fields: ['email'] }
     });
+    // deconstruct variables
     const { responseObject, body } = req;
     const { email, password } = body;
+    console.log(responseObject);
     if (responseObject.errors.length === 0) {
         let dataObject = { email };
         const dataResponse = yield (0, useEcryption_1.useHashData)({ password });
@@ -53,7 +52,6 @@ router.post('/add', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             });
         }
         responseObject.data = new UserModel_1.UserModel(dataObject);
-        // setSuccessResponse( responseObject, 201 )
         quiggle_1.goatTail.setDataResponse(responseObject, 201);
         responseObject.data.save();
     }
