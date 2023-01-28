@@ -8,6 +8,7 @@ import { IndexRouter } from './routes/IndexRoutes'
 import { runInits } from './init/runInits'
 import { AuthRouter } from './routes/AuthRoutes'
 import cookieParser from 'cookie-parser'
+import { goatTail } from 'quiggle'
 
 // init and configure app
 const app = express()
@@ -19,6 +20,7 @@ app.use( cors() )
 app.use( express.json() )
 app.use( express.urlencoded({ extended: false }))
 app.use( cookieParser() )
+app.use( goatTail.initResponseObject )
 
 // router
 app.use( '/', IndexRouter )

@@ -13,6 +13,7 @@ const IndexRoutes_1 = require("./routes/IndexRoutes");
 const runInits_1 = require("./init/runInits");
 const AuthRoutes_1 = require("./routes/AuthRoutes");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const quiggle_1 = require("quiggle");
 // init and configure app
 const app = (0, express_1.default)();
 dotenv_1.default.config();
@@ -22,6 +23,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cookie_parser_1.default)());
+app.use(quiggle_1.goatTail.initResponseObject);
 // router
 app.use('/', IndexRoutes_1.IndexRouter);
 app.use('/user', UserRoutes_1.UserRouter);

@@ -1,9 +1,8 @@
 import express from 'express'
 import { UserModel } from '../models/UserModel'
-import { createResponseObject, setSuccessResponse } from '../handlers/responseHandlers'
-import { createValidationObject } from '../handlers/validationHandlers'
 import { runValidation } from '../validators/runValidation'
 import { useHashData } from '../hooks/useEcryption'
+import { goatTail } from 'quiggle'
 
 const router = express.Router()
 
@@ -23,18 +22,19 @@ router.delete( '/delete/all', async ( req, res ) => {
 	res.status( 201 ).json({ "all users": "deleted." })
 })
 
-router.post( '/add', async ( req, res ) => {
-	const responseObject: any = createResponseObject()
-
+router.post( '/add', async ( req: any, res ) => {
 	// validation engine
-	await runValidation( createValidationObject( responseObject, req.body ), {
+	await runValidation( { response: req.responseObject, request: req.body }, {
 		required: [ 'email', 'password' ],
 		unique: { model: UserModel, fields: [ 'email' ]}
 	})
-
+	// deconstruct variables
+	const { responseObject, body } = req
+	const { email, password } = body
+	console.log( responseObject )
 	if ( responseObject.errors.length === 0 ) {
-		let dataObject = { email: req.body.email }
-		const dataResponse: any = await useHashData({ password: req.body.password })
+		let dataObject = { email }
+		const dataResponse: any = await useHashData({ password })
 		if ( Object.keys( dataResponse ).length ) {
 			dataResponse.forEach(( data: any ) => {
 				dataObject = {
@@ -44,7 +44,7 @@ router.post( '/add', async ( req, res ) => {
 			})
 		}
 		responseObject.data = new UserModel( dataObject )
-		setSuccessResponse( responseObject, 201 )
+		goatTail.setDataResponse( responseObject, 201 )
 		responseObject.data.save()
 	}
 	res.status( responseObject.statusCode ).json( responseObject )

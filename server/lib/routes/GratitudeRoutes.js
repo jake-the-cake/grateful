@@ -24,15 +24,18 @@ exports.GratitudeRouter = router;
 const models = {
     gratitude: GratitudeModel_1.GratitudeModel
 };
-const getDataByUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getDataByUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const routePath = req.baseUrl.replace('/', '');
     const userId = req.body.id;
-    const data = yield models[routePath].find({ user: userId });
-    console.log(data);
-    res.send('check terminal');
+    req.data = yield models[routePath].find({ user: userId });
+    next();
+    // console.log( data )
+    // res.send( 'check terminal' )
 });
 router.route('/find/byuser')
-    .get(getDataByUser);
+    .get(getDataByUser, (req, res) => {
+    res.send(req.data);
+});
 router.get('/', (req, res) => {
     res.send('Gratitude Routes');
 });

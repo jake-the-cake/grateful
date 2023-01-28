@@ -15,10 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const UserModel_1 = require("../models/UserModel");
-const responseHandlers_1 = require("../handlers/responseHandlers");
-const validationHandlers_1 = require("../handlers/validationHandlers");
 const runValidation_1 = require("../validators/runValidation");
 const useEcryption_1 = require("../hooks/useEcryption");
+const quiggle_1 = require("quiggle");
 const router = express_1.default.Router();
 exports.UserRouter = router;
 router.get('/', (req, res) => {
@@ -35,22 +34,25 @@ router.delete('/delete/all', (req, res) => __awaiter(void 0, void 0, void 0, fun
     res.status(201).json({ "all users": "deleted." });
 }));
 router.post('/add', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const responseObject = (0, responseHandlers_1.createResponseObject)();
     // validation engine
-    yield (0, runValidation_1.runValidation)((0, validationHandlers_1.createValidationObject)(responseObject, req.body), {
+    yield (0, runValidation_1.runValidation)({ response: req.responseObject, request: req.body }, {
         required: ['email', 'password'],
         unique: { model: UserModel_1.UserModel, fields: ['email'] }
     });
+    // deconstruct variables
+    const { responseObject, body } = req;
+    const { email, password } = body;
+    console.log(responseObject);
     if (responseObject.errors.length === 0) {
-        let dataObject = { email: req.body.email };
-        const dataResponse = yield (0, useEcryption_1.useHashData)({ password: req.body.password });
+        let dataObject = { email };
+        const dataResponse = yield (0, useEcryption_1.useHashData)({ password });
         if (Object.keys(dataResponse).length) {
             dataResponse.forEach((data) => {
                 dataObject = Object.assign(Object.assign({}, dataObject), data);
             });
         }
         responseObject.data = new UserModel_1.UserModel(dataObject);
-        (0, responseHandlers_1.setSuccessResponse)(responseObject, 201);
+        quiggle_1.goatTail.setDataResponse(responseObject, 201);
         responseObject.data.save();
     }
     res.status(responseObject.statusCode).json(responseObject);

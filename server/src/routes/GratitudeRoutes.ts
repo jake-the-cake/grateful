@@ -11,16 +11,19 @@ const models: any = {
   gratitude: GratitudeModel
 }
 
-const getDataByUser: any = async ( req: any, res: any ) => {
+const getDataByUser: any = async ( req: any, res: any, next: any ) => {
   const routePath = req.baseUrl.replace( '/', '' )
   const userId = req.body.id
-  const data = await models[ routePath ].find({ user: userId })
-  console.log( data )
-  res.send( 'check terminal' )
+  req.data = await models[ routePath ].find({ user: userId })
+  next()
+  // console.log( data )
+  // res.send( 'check terminal' )
 }
 
 router.route( '/find/byuser' )
-  .get( getDataByUser )
+  .get( getDataByUser, (req:any,res) => {
+    res.send(req.data)
+  })
 
 
 router.get( '/', ( req, res ) => {
