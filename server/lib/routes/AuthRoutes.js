@@ -19,6 +19,7 @@ const responseHandlers_1 = require("../handlers/responseHandlers");
 const errorLogHandlers_1 = require("../handlers/errorLogHandlers");
 const useEcryption_1 = require("../hooks/useEcryption");
 const useToken_1 = require("../hooks/useToken");
+const handleRequest_1 = require("quiggle/lib/tail/express-controllers/handleRequest");
 const router = express_1.default.Router();
 exports.AuthRouter = router;
 router.get('/test', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -50,3 +51,4 @@ router.post('/login/init', (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
     res.status(responseObject.statusCode).json(responseObject);
 }));
+router.get('/test', handleRequest_1.initResponseObject, handleRequest_1.getOne);

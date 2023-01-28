@@ -4,6 +4,7 @@ import { createResponseObject, setErrorResponse, setSuccessResponse } from '../h
 import { createErrorLog } from '../handlers/errorLogHandlers'
 import { useCompareHash, useHashData } from '../hooks/useEcryption'
 import { useSignedToken } from '../hooks/useToken'
+import { getOne, initResponseObject } from 'quiggle/lib/tail/express-controllers/handleRequest'
 
 const router = express.Router()
 
@@ -40,5 +41,7 @@ router.post( '/login/init', async ( req, res ) => {
   }
   res.status( responseObject.statusCode ).json( responseObject )
 })
+
+router.get('/test', initResponseObject ,getOne)
 
 export { router as AuthRouter }
